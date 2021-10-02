@@ -2,36 +2,47 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/controller.css">
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/hammer.min.js"></script>
 
+    <!-- <button id='button1' type="button">Left wheels</button> -->
+    <!-- <button id='button2' type="button">Right wheels</button> -->
+    <input class="slider" id="slider1" type="range" orient="vertical" min="-1" max="1"
+       onmouseup="slider1.value = 0;"
+       ontouchend="slider1.value = 0;"
+       onkeyup="slider1.value = 0;"
+    >
+    <input class="slider" id="slider2" type="range" orient="vertical" min="-1" max="1"
+       onmouseup="slider2.value = 0;"
+       ontouchend="slider2.value = 0;"
+       onkeyup="slider2.value = 0;"
+       onchange="update_right_wheels()"
+    >
     <script>
       var socket = io();
+      // var button1 = document.getElementById('button1');
+      // var button2 = document.getElementById('button2');
+      // var slider1 = document.getElementById('slider1');
+      var vehicle = 'FEL_A'
+      // }
 
-      var messages = document.getElementById('messages');
-      var form = document.getElementById('form');
-      var input = document.getElementById('input');
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (input.value) {
-          socket.emit('chat message', input.value);
-          input.value = '';
-        }
-      });
-
-      socket.on('chat message', function(msg) {
-        var item = document.createElement('li');
-        item.textContent = msg;
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
-      });
+      // button1.addEventListener('submit', function(e) {
+      //   e.preventDefault();
+      //   if (input.value) {
+      //     socket.emit('push', input.value);
+      //     input.value = '';
+      //   }
+      // });
+      //
+      // socket.on('chat message', function(msg) {
+      //   var item = document.createElement('li');
+      //   item.textContent = msg;
+      //   messages.appendChild(item);
+      //   window.scrollTo(0, document.body.scrollHeight);
+      // });
     </script>
   </body>
 </html>

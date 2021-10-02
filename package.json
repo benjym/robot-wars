@@ -1,7 +1,7 @@
 {
-  "name": "socket-chat-example",
+  "name": "robot-wars",
   "version": "0.0.1",
-  "description": "my first socket.io app",
+  "description": "Web interface for controlling remote control trucks",
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^4.1.2"

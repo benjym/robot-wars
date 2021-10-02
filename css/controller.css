@@ -1,0 +1,36 @@
+button {
+  background-color: #333;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  position:absolute;
+}
+
+input[type=range][orient=vertical]
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 24px;
+    height: 175px;
+    padding: 0 5px;
+    position:absolute;
+    /* background: #333; /* Green background */ */
+}
+
+#slider1 {
+    left:100px;
+    top: calc(50% - 50px);
+}
+
+#slider2 {
+    right:100px;
+    top: calc(50% - 50px);
+}
