@@ -6,20 +6,20 @@
   </head>
   <body>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/hammer.min.js"></script>
 
     <!-- <button id='button1' type="button">Left wheels</button> -->
     <!-- <button id='button2' type="button">Right wheels</button> -->
     <input class="slider" id="slider1" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="slider1.value = 0;"
-       ontouchend="slider1.value = 0;"
-       onkeyup="slider1.value = 0;"
+       onmouseup="slider1.value = 0; update_left_wheels()"
+       ontouchend="slider1.value = 0; update_left_wheels()"
+       onkeyup="slider1.value = 0; update_left_wheels()"
+       oninput="update_left_wheels()"
     >
     <input class="slider" id="slider2" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="slider2.value = 0;"
-       ontouchend="slider2.value = 0;"
-       onkeyup="slider2.value = 0;"
-       onchange="update_right_wheels()"
+       onmouseup="slider2.value = 0; update_right_wheels()"
+       ontouchend="slider2.value = 0; update_right_wheels()"
+       onkeyup="slider2.value = 0; update_right_wheels()"
+       oninput="update_right_wheels()"
     >
     <script>
       var socket = io();
@@ -27,7 +27,16 @@
       // var button2 = document.getElementById('button2');
       // var slider1 = document.getElementById('slider1');
       var vehicle = 'FEL_A'
-      // }
+      
+
+      function update_left_wheels() {
+         console.log(slider1.value);
+      }
+
+      function update_right_wheels() {
+         console.log(slider2.value);
+      }
+
 
       // button1.addEventListener('submit', function(e) {
       //   e.preventDefault();

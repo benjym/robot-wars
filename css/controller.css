@@ -26,11 +26,11 @@ input[type=range][orient=vertical]
 }
 
 #slider1 {
-    left:100px;
+    left:25%;
     top: calc(50% - 50px);
 }
 
 #slider2 {
-    right:100px;
+    right:25%;
     top: calc(50% - 50px);
 }
