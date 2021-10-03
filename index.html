@@ -1,57 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>Device control</title>
     <link rel="stylesheet" href="css/controller.css">
   </head>
   <body>
     <script src="/socket.io/socket.io.js"></script>
 
-    <!-- <button id='button1' type="button">Left wheels</button> -->
-    <!-- <button id='button2' type="button">Right wheels</button> -->
-    <input class="slider" id="slider1" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="slider1.value = 0; update_left_wheels()"
-       ontouchend="slider1.value = 0; update_left_wheels()"
-       onkeyup="slider1.value = 0; update_left_wheels()"
+    <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
+       onmouseup="left_wheels.value = 0; update_left_wheels()"
+       ontouchend="left_wheels.value = 0; update_left_wheels()"
+       onkeyup="left_wheels.value = 0; update_left_wheels()"
        oninput="update_left_wheels()"
     >
-    <input class="slider" id="slider2" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="slider2.value = 0; update_right_wheels()"
-       ontouchend="slider2.value = 0; update_right_wheels()"
-       onkeyup="slider2.value = 0; update_right_wheels()"
+    <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
+       onmouseup="right_wheels.value = 0; update_right_wheels()"
+       ontouchend="right_wheels.value = 0; update_right_wheels()"
+       onkeyup="right_wheels.value = 0; update_right_wheels()"
        oninput="update_right_wheels()"
     >
     <script>
       var socket = io();
-      // var button1 = document.getElementById('button1');
-      // var button2 = document.getElementById('button2');
-      // var slider1 = document.getElementById('slider1');
-      var vehicle = 'FEL_A'
-      
+      var vehicle = 'FEL_A'; // front end loader on team A by default
 
       function update_left_wheels() {
-         console.log(slider1.value);
+         console.log(left_wheels.value);
+         socket.emit(vehicle + '_left_wheels', left_wheels.value);
       }
 
       function update_right_wheels() {
-         console.log(slider2.value);
+         console.log(right_wheels.value);
+         socket.emit(vehicle + '_right_wheels', right_wheels.value);
       }
-
-
-      // button1.addEventListener('submit', function(e) {
-      //   e.preventDefault();
-      //   if (input.value) {
-      //     socket.emit('push', input.value);
-      //     input.value = '';
-      //   }
-      // });
-      //
-      // socket.on('chat message', function(msg) {
-      //   var item = document.createElement('li');
-      //   item.textContent = msg;
-      //   messages.appendChild(item);
-      //   window.scrollTo(0, document.body.scrollHeight);
-      // });
     </script>
   </body>
 </html>

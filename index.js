@@ -11,8 +11,8 @@ app.use('/', express.static(__dirname + '/')); // serve data files
 // });
 
 io.on('connection', (socket) => {
-  socket.on('chat message', msg => {
-    io.emit('chat message', msg);
+  socket.on('FEL_A_left_wheels', value => {
+    console.log('left wheel should be set to ' + value);
   });
 });
 
