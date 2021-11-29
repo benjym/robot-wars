@@ -22,18 +22,18 @@ io.on('connection', (socket) => { // when a user connects
   });
 
   socket.on('front-end-loader', (actuator, value, team, token ) => {
-    console.log(actuator + ' should be set to ' + value + ' for team' + team);
-    socket.to(BBG_ID).emit('front-end-loader', (actuator, value, team, token ));
+    console.log(actuator + ' should be set to ' + value + ' for team ' + team);
+    socket.to(BBG_ID).emit('front-end-loader', actuator, value, team, token );
   });
 
   socket.on('dump-truck', (actuator, value, team, token ) => {
-    console.log(actuator + ' should be set to ' + value + ' for team' + team);
-    socket.to(BBG_ID).emit('dump-truck', (actuator, value, team, token ));
+    console.log(actuator + ' should be set to ' + value + ' for team ' + team);
+    socket.to(BBG_ID).emit('dump-truck', actuator, value, team, token );
   });
 
   socket.on('excavator', (actuator, value, team, token ) => {
-    console.log(actuator + ' should be set to ' + value + ' for team' + team);
-    socket.to(BBG_ID).emit('excavator', (actuator, value, team, token ));
+    console.log(actuator + ' should be set to ' + value + ' for team ' + team);
+    socket.to(BBG_ID).emit('excavator', actuator, value, team, token );
   });
 
 
