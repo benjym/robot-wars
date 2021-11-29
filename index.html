@@ -5,33 +5,13 @@
     <link rel="stylesheet" href="css/controller.css">
   </head>
   <body>
-    <script src="/socket.io/socket.io.js"></script>
-
-    <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="left_wheels.value = 0; update_left_wheels()"
-       ontouchend="left_wheels.value = 0; update_left_wheels()"
-       onkeyup="left_wheels.value = 0; update_left_wheels()"
-       oninput="update_left_wheels()"
-    >
-    <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="right_wheels.value = 0; update_right_wheels()"
-       ontouchend="right_wheels.value = 0; update_right_wheels()"
-       onkeyup="right_wheels.value = 0; update_right_wheels()"
-       oninput="update_right_wheels()"
-    >
-    <script>
-      var socket = io();
-      var vehicle = 'FEL_A'; // front end loader on team A by default
-
-      function update_left_wheels() {
-         console.log(left_wheels.value);
-         socket.emit(vehicle + '_left_wheels', left_wheels.value);
-      }
-
-      function update_right_wheels() {
-         console.log(right_wheels.value);
-         socket.emit(vehicle + '_right_wheels', right_wheels.value);
-      }
-    </script>
+    <h1>Team A</h1>
+    <a href="front-end-loader.html?team=a">Front End Loader</a>
+    <a href="dump.html?team=a">Dump Truck</a>
+    <a href="excavator.html?team=a">Excavator</a>
+    <h1>Team B</h1>
+    <a href="front-end-loader.html?team=b">Front End Loader</a>
+    <a href="dump.html?team=b">Dump Truck</a>
+    <a href="excavator.html?team=b">Excavator</a>
   </body>
 </html>

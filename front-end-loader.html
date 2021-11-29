@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Device control</title>
+    <link rel="stylesheet" href="css/controller.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GQE06JN33T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GQE06JN33T');
+    </script>
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
+       onmouseup="left_wheels.value = 0; update_left_wheels()"
+       ontouchend="left_wheels.value = 0; update_left_wheels()"
+       onkeyup="left_wheels.value = 0; update_left_wheels()"
+       oninput="update_left_wheels()"
+    >
+    <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
+       onmouseup="right_wheels.value = 0; update_right_wheels()"
+       ontouchend="right_wheels.value = 0; update_right_wheels()"
+       onkeyup="right_wheels.value = 0; update_right_wheels()"
+       oninput="update_right_wheels()"
+    >
+    <button class="button" id="bucket_up"
+       ontouchend="bucket = 0; update_bucket()"
+       onkeyup="bucket = 0; update_bucket()"
+       onmouseup="bucket = 0; update_bucket()"
+
+       ontouchstart="bucket = 1; update_bucket()"
+       onkeydown="bucket = 1; update_bucket()"
+       onmousedown="bucket = 1; update_bucket()"
+    ><i class="material-icons">north</i></button>
+    <button class="button" id="bucket_down"
+       ontouchend="bucket = 0; update_bucket()"
+       onkeyup="bucket = 0; update_bucket()"
+       onmouseup="bucket = 0; update_bucket()"
+
+       ontouchstart="bucket = 1; update_bucket()"
+       onkeydown="bucket = 1; update_bucket()"
+       onmousedown="bucket = 1; update_bucket()"
+    ><i class="material-icons">south</i></button>
+    <script>
+      var vehicle = 'FEL'; // front end loader on team A by default
+      var token = '-1';
+      var bucket = 0;
+      var server = 'https://robot-wars-usyd.herokuapp.com/';
+
+      var urlParams = new URLSearchParams(window.location.search);
+      if ( urlParams.has('token') ) { token = urlParams.get('token'); }
+      var team = urlParams.get('team');
+
+      var socket = io(server, {
+          // cors: {
+            // origin: "https://example.com",
+            // methods: ["GET", "POST"]
+          // }
+      });
+
+      function update_left_wheels() {
+         console.log(left_wheels.value);
+         socket.emit(vehicle, 'left_wheels', left_wheels.value, team, token);
+      }
+
+      function update_right_wheels() {
+         console.log(right_wheels.value);
+         socket.emit(vehicle, 'right_wheels', right_wheels.value, team, token);
+      }
+
+      function update_bucket() {
+          console.log(bucket);
+          socket.emit(vehicle, 'bucket', bucket, team, token);
+      }
+    </script>
+  </body>
+</html>
