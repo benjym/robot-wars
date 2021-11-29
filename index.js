@@ -16,10 +16,10 @@ app.use('/', express.static(__dirname + '/')); // serve data files
 io.on('connection', (socket) => { // when a user connects
   console.log('a user connected');
 
-  socket.on('i-am-the-BBG', id) => {
+  socket.on('i-am-the-BBG', id => {
       console.log('The BBG connected with socket id ' + id)
       BBG_ID = id;
-  }
+  });
 
   socket.on('front-end-loader', (actuator, value, team, token ) => {
     console.log(actuator + ' should be set to ' + value + ' for team' + team);
