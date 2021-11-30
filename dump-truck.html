@@ -72,12 +72,12 @@
 
       function update_left_wheels() {
          console.log(left_wheels.value);
-         socket.emit(vehicle, 'left_wheels', left_wheels.value, team, token);
+         socket.emit(vehicle, 'left_wheels', left_wheels.value, team);
       }
 
       function update_right_wheels() {
          console.log(right_wheels.value);
-         socket.emit(vehicle, 'right_wheels', right_wheels.value, team, token);
+         socket.emit(vehicle, 'right_wheels', right_wheels.value, team);
       }
 
       function update_bucket() {
