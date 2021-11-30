@@ -1,32 +1,30 @@
 const { io } = require("socket.io-client");
 const b = require('bonescript');
-b.pinMode("USR0", b.OUTPUT); // user selectable LED for testing
-b.pinMode("USR1", b.OUTPUT); // user selectable LED for testing
-b.pinMode("USR2", b.OUTPUT); // user selectable LED for testing
-b.pinMode("USR3", b.OUTPUT); // user selectable LED for testing
+
+["USR0","USR1","USR2","USR3"].forEach(p => b.pinMode(p, b.OUTPUT));  // user selectable LEDs for testing
 
 // enable all possible 65 GPIO pins
-// we need:
+// we only need:
 //   4 x 6 pins for simple robots (24 pins)
 //   2 x 16 pins for excavators (32 pins)
+//   total: 56 pins!
 
 for (let i = 3; i <= 46; i++) { // enable entire RHS (44 pins)
-   b.pinMode("P8_" + String(i), b.OUTPUT);
+   b.pinMode("P8_" + String(i), b.OUTPUT, 7);
 }
 for (let i = 11; i <= 18; i++) { // enable LHS (8 pins)
-   b.pinMode("P9_" + String(i), b.OUTPUT);
+   b.pinMode("P9_" + String(i), b.OUTPUT, 7);
 }
 for (let i = 21; i <= 31; i++) { // enable LHS (11 pins)
-   b.pinMode("P9_" + String(i), b.OUTPUT);
+   b.pinMode("P9_" + String(i), b.OUTPUT, 7);
 }
 // and two more pins
-b.pinMode("P9_41", b.OUTPUT);
-b.pinMode("P9_42", b.OUTPUT);
+b.pinMode("P9_41", b.OUTPUT, 7);
+b.pinMode("P9_42", b.OUTPUT, 7);
 
 
-var server = 'https://robot-wars-usyd.herokuapp.com/';
-// var server = 'http://localhost:3000';
-
+var server = 'https://robot-wars-usyd.herokuapp.com/'; // production server
+// var server = 'http://localhost:3000'; // testing only
 var socket = io(server);
 
 socket.on("connect", () => {
@@ -61,11 +59,12 @@ socket.on("connect", () => {
         var back_pin    = 'USR3';
     }
 
-    if ( value === 1 ) {
+    v = parseInt(value); // just to be sure
+    if ( v === 1 ) {
         b.digitalWrite(forward_pin, b.HIGH);
         b.digitalWrite(back_pin,    b.LOW);
     }
-    else if (value === -1 ) {
+    else if (v === -1 ) {
         b.digitalWrite(forward_pin, b.LOW);
         b.digitalWrite(back_pin,    b.HIGH);
     }

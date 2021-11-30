@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Dump Truck</title>
+    <title>Dump truck</title>
     <link rel="stylesheet" href="css/controller.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,11 +53,14 @@
        onkeydown="bucket = -1; update_bucket()"
        onmousedown="bucket = -1; update_bucket()"
     ><i class="material-icons">south</i></button>
+
+    <div id="centre_text"><h2>Bed</h2></div>
     <script>
       var vehicle = 'dump-truck'; // front end loader on team A by default
       var token = '-1';
       var bucket = 0;
       var server = 'https://robot-wars-usyd.herokuapp.com/';
+      // var server = 'http://localhost:3000'
 
       var urlParams = new URLSearchParams(window.location.search);
       if ( urlParams.has('token') ) { token = urlParams.get('token'); }
@@ -72,12 +75,12 @@
 
       function update_left_wheels() {
          console.log(left_wheels.value);
-         socket.emit(vehicle, 'left_wheels', left_wheels.value, team);
+         socket.emit(vehicle, 'left_wheels', left_wheels.value, team, token);
       }
 
       function update_right_wheels() {
          console.log(right_wheels.value);
-         socket.emit(vehicle, 'right_wheels', right_wheels.value, team);
+         socket.emit(vehicle, 'right_wheels', right_wheels.value, team, token);
       }
 
       function update_bucket() {

@@ -1,12 +1,11 @@
 {
   "name": "robot-wars",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Web interface for controlling remote control trucks",
   "dependencies": {
     "bonescript": "^0.7.4-beta1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "nodemon": "^2.0.15",
     "socket.io": "^4.1.2",
     "socket.io-client": "^4.4.0"
   },
