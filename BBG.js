@@ -74,12 +74,118 @@ socket.on("connect", () => {
     }
   });
 
-  socket.on('dump-truck', (actuator, value, team ) => {
+  socket.on('dump-truck', (actuator, value, team) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);
+
+    if      ( actuator === 'left_wheels'  & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'right_wheels' & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'bucket'       & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'left_wheels'  & team === 'b' ) {
+        var forward_pin = 'USR2';
+        var back_pin    = 'USR3';
+    }
+    else if ( actuator === 'right_wheels' & team === 'b' ) {
+        var forward_pin = 'USR2';
+        var back_pin    = 'USR3';
+    }
+    else if ( actuator === 'bucket'       & team === 'b' ) {
+        var forward_pin = 'USR2';
+        var back_pin    = 'USR3';
+    }
+
+    v = parseInt(value); // just to be sure
+    if ( v === 1 ) {
+        b.digitalWrite(forward_pin, b.HIGH);
+        b.digitalWrite(back_pin,    b.LOW);
+    }
+    else if (v === -1 ) {
+        b.digitalWrite(forward_pin, b.LOW);
+        b.digitalWrite(back_pin,    b.HIGH);
+    }
+    else {
+        b.digitalWrite(forward_pin, b.LOW);
+        b.digitalWrite(back_pin,    b.LOW);
+    }
   });
 
-  socket.on('excavator', (actuator, value, team ) => {
+  socket.on('excavator', (actuator, value, team) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);
+
+    if      ( actuator === 'left_wheels'  & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'right_wheels' & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'bucket'       & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'arm_1'        & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'arm_2'        & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'arm_3'        & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'slew'         & team === 'a' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'left_wheels'  & team === 'b' ) {
+        var forward_pin = 'USR2';
+        var back_pin    = 'USR3';
+    }
+    else if ( actuator === 'right_wheels' & team === 'b' ) {
+        var forward_pin = 'USR2';
+        var back_pin    = 'USR3';
+    }
+    else if ( actuator === 'bucket'       & team === 'b' ) {
+        var forward_pin = 'USR2';
+        var back_pin    = 'USR3';
+    }
+    else if ( actuator === 'arm_1'        & team === 'b' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'arm_2'        & team === 'b' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+    else if ( actuator === 'slew'         & team === 'b' ) {
+        var forward_pin = 'USR0';
+        var back_pin    = 'USR1';
+    }
+
+    v = parseInt(value); // just to be sure
+    if ( v === 1 ) {
+        b.digitalWrite(forward_pin, b.HIGH);
+        b.digitalWrite(back_pin,    b.LOW);
+    }
+    else if (v === -1 ) {
+        b.digitalWrite(forward_pin, b.LOW);
+        b.digitalWrite(back_pin,    b.HIGH);
+    }
+    else {
+        b.digitalWrite(forward_pin, b.LOW);
+        b.digitalWrite(back_pin,    b.LOW);
+    }
   });
 
 });

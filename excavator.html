@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Dump Truck</title>
+    <title>Excavator</title>
     <link rel="stylesheet" href="css/controller.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,35 +24,118 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="left_wheels.value = 0; update_left_wheels()"
-       ontouchend="left_wheels.value = 0; update_left_wheels()"
-       onkeyup="left_wheels.value = 0; update_left_wheels()"
-       oninput="update_left_wheels()"
+        onmouseup="left_wheels.value = 0; emit('left_wheels',0)"
+        ontouchend="left_wheels.value = 0; emit('left_wheels',0)"
+        onkeyup="left_wheels.value = 0; emit('left_wheels',0)"
+        oninput="emit('left_wheels',left_wheels.value)"
     >
     <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="right_wheels.value = 0; update_right_wheels()"
-       ontouchend="right_wheels.value = 0; update_right_wheels()"
-       onkeyup="right_wheels.value = 0; update_right_wheels()"
-       oninput="update_right_wheels()"
+        onmouseup="right_wheels.value = 0; emit('right_wheels',0)"
+        ontouchend="right_wheels.value = 0; emit('right_wheels',0)"
+        onkeyup="right_wheels.value = 0; emit('right_wheels',0)"
+        oninput="emit('right_wheels',right_wheels.value)"
     >
-    <button class="button" id="bucket_up"
-       ontouchend="bucket = 0; update_bucket()"
-       onkeyup="bucket = 0; update_bucket()"
-       onmouseup="bucket = 0; update_bucket()"
+    <button class="button" id="arm_1_up"
+        ontouchend="emit('arm_1',0)"
+        onkeyup="emit('arm_1',0)"
+        onmouseup="emit('arm_1',0)"
 
-       ontouchstart="bucket = 1; update_bucket()"
-       onkeydown="bucket = 1; update_bucket()"
-       onmousedown="bucket = 1; update_bucket()"
+        ontouchstart="emit('arm_1',1)"
+        onkeydown="emit('arm_1',1)"
+        onmousedown="emit('arm_1',1)"
     ><i class="material-icons">north</i></button>
-    <button class="button" id="bucket_down"
-       ontouchend="bucket = 0; update_bucket()"
-       onkeyup="bucket = 0; update_bucket()"
-       onmouseup="bucket = 0; update_bucket()"
+    <button class="button" id="arm_1_down"
+        ontouchend="emit('arm_1',0)"
+        onkeyup="emit('arm_1',0)"
+        onmouseup="emit('arm_1',0)"
 
-       ontouchstart="bucket = -1; update_bucket()"
-       onkeydown="bucket = -1; update_bucket()"
-       onmousedown="bucket = -1; update_bucket()"
+        ontouchstart="emit('arm_1',-1)"
+        onkeydown="emit('arm_1',-1)"
+        onmousedown="emit('arm_1',-1)"
     ><i class="material-icons">south</i></button>
+
+    <button class="button" id="arm_2_up"
+        ontouchend="emit('arm_2',0)"
+        onkeyup="emit('arm_2',0)"
+        onmouseup="emit('arm_2',0)"
+
+        ontouchstart="emit('arm_2',1)"
+        onkeydown="emit('arm_2',1)"
+        onmousedown="emit('arm_2',1)"
+    ><i class="material-icons">north</i></button>
+    <button class="button" id="arm_2_down"
+        ontouchend="emit('arm_2',0)"
+        onkeyup="emit('arm_2',0)"
+        onmouseup="emit('arm_2',0)"
+
+        ontouchstart="emit('arm_2',-1)"
+        onkeydown="emit('arm_2',-1)"
+        onmousedown="emit('arm_2',-1)"
+    ><i class="material-icons">south</i></button>
+
+    <!-- <button class="button" id="arm_3_up"
+        ontouchend="emit('arm_3',0)"
+        onkeyup="emit('arm_3',0)"
+        onmouseup="emit('arm_3',0)"
+
+        ontouchstart="emit('arm_3',1)"
+        onkeydown="emit('arm_3',1)"
+        onmousedown="emit('arm_3',1)"
+    ><i class="material-icons">north</i></button>
+    <button class="button" id="arm_3_down"
+        ontouchend="emit('arm_3',0)"
+        onkeyup="emit('arm_3',0)"
+        onmouseup="emit('arm_3',0)"
+
+        ontouchstart="emit('arm_3',-1)"
+        onkeydown="emit('arm_3',-1)"
+        onmousedown="emit('arm_3',-1)"
+    ><i class="material-icons">south</i></button> -->
+
+    <button class="button" id="exc_bucket_up"
+        ontouchend="emit('bucket',0)"
+        onkeyup="emit('bucket',0)"
+        onmouseup="emit('bucket',0)"
+
+        ontouchstart="emit('bucket',1)"
+        onkeydown="emit('bucket',1)"
+        onmousedown="emit('bucket',1)"
+    ><i class="material-icons">north</i></button>
+    <button class="button" id="exc_bucket_down"
+        ontouchend="emit('bucket',0)"
+        onkeyup="emit('bucket',0)"
+        onmouseup="emit('bucket',0)"
+
+        ontouchstart="emit('bucket',-1)"
+        onkeydown="emit('bucket',-1)"
+        onmousedown="emit('bucket',-1)"
+    ><i class="material-icons">south</i></button>
+
+    <button class="button" id="slew_left"
+        ontouchend="emit('slew',0)"
+        onkeyup="emit('slew',0)"
+        onmouseup="emit('slew',0)"
+
+        ontouchstart="emit('slew',1)"
+        onkeydown="emit('slew',1)"
+        onmousedown="emit('slew',1)"
+    ><i class="material-icons">rotate_left</i></button>
+    <button class="button" id="slew_right"
+        ontouchend="emit('slew',0)"
+        onkeyup="emit('slew',0)"
+        onmouseup="emit('slew',0)"
+
+        ontouchstart="emit('slew',-1)"
+        onkeydown="emit('slew',-1)"
+        onmousedown="emit('slew',-1)"
+    ><i class="material-icons">rotate_right</i></button>
+
+
+    <div id="exc_bucket_text"><h2>Bucket</h2></div>
+    <div id="arm_1_text"><h2>Boom</h2></div>
+    <div id="arm_2_text"><h2>Dipper</h2></div>
+    <!-- <div id="arm_3_text"><h2>?</h2></div> -->
+    <div id="slew_text"><h2>Slew</h2></div>
 
     <script>
       var vehicle = 'excavator'; // front end loader on team A by default
@@ -71,20 +154,20 @@
           // }
       });
 
-      function update_left_wheels() {
-         console.log(left_wheels.value);
-         socket.emit(vehicle, 'left_wheels', left_wheels.value, team, token);
+      function emit(component,value) {
+         console.log(component,value);
+         socket.emit(vehicle, component, value, team, token);
       }
 
-      function update_right_wheels() {
-         console.log(right_wheels.value);
-         socket.emit(vehicle, 'right_wheels', right_wheels.value, team, token);
-      }
-
-      function update_bucket() {
-          console.log(bucket);
-          socket.emit(vehicle, 'bucket', bucket, team, token);
-      }
+      // function update_right_wheels() {
+      //    console.log(right_wheels.value);
+      //    socket.emit(vehicle, 'right_wheels', right_wheels.value, team, token);
+      // }
+      //
+      // function update_bucket() {
+      //     console.log(bucket);
+      //     socket.emit(vehicle, 'bucket', bucket, team, token);
+      // }
     </script>
   </body>
 </html>
