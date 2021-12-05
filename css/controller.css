@@ -5,9 +5,12 @@ i {
     -ms-user-select: none;
 }
 
-/* h2 { */
-    /* font-size: 12pt; */
-/* } */
+h2 {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 
 .button {
   background-color: #333;
