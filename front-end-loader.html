@@ -22,7 +22,9 @@
     <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script>
   </head>
   <body scroll="no" oncontextmenu="return false">
-    <script src="/socket.io/socket.io.js"></script>
+    <div id="info"><div id="info-child">PLEASE ROTATE PHONE</div></div>
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
     <div id="left_wheels"></div>
     <div id="right_wheels"></div>
     <button class="button" id="bucket_up"
@@ -72,6 +74,8 @@
       options.zone = document.getElementById('right_wheels');
       options.position = {top: '50%', right: '15%'};
       var right_joystick = nipplejs.create(options);
+      
+      show_hide_joysticks();
 
       var socket = io(server);
 
@@ -103,6 +107,20 @@
               socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
           })
       });
+
+      function show_hide_joysticks() {
+          if ( window.orientation == 0 || window.orientation == 180 ) {
+              document.getElementById('right_wheels').hidden = true;
+              document.getElementById('left_wheels').hidden = true;
+          }
+          else if ( window.orientation == 90 || window.orientation == 270 ) {
+              document.getElementById('right_wheels').hidden = false;
+              document.getElementById('left_wheels').hidden = false;
+          }
+      }
+
+      // Listen for orientation changes
+      window.addEventListener("orientationchange", show_hide_joysticks);
 
       function update_left_wheels() {
          console.log(left_wheels.value);
