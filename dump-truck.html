@@ -19,24 +19,27 @@
 
       gtag('config', 'G-GQE06JN33T');
     </script>
+    <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script>
   </head>
   <body>
-    <script src="/socket.io/socket.io.js"></script>
-
-    <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <!-- <div class="zone"></div> -->
+    <div id="left_wheels"></div>
+    <div id="right_wheels"></div>
+    <!-- <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
        onmouseup="left_wheels.value = 0; update_left_wheels()"
        ontouchend="left_wheels.value = 0; update_left_wheels()"
        ontouchcancel="left_wheels.value = 0; update_left_wheels()"
        onkeyup="left_wheels.value = 0; update_left_wheels()"
        oninput="update_left_wheels()"
-    >
-    <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
+    > -->
+    <!-- <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
        onmouseup="right_wheels.value = 0; update_right_wheels()"
        ontouchend="right_wheels.value = 0; update_right_wheels()"
        ontouchcancel="right_wheels.value = 0; update_right_wheels()"
        onkeyup="right_wheels.value = 0; update_right_wheels()"
        oninput="update_right_wheels()"
-    >
+    > -->
     <button class="button" id="bucket_up"
        ontouchend="bucket = 0; update_bucket()"
        ontouchcancel="bucket = 0; update_bucket()"
@@ -66,6 +69,53 @@
       var server = 'https://robot-wars-usyd.herokuapp.com/';
       // var server = 'http://localhost:3000'
 
+      var options = {
+          zone: document.getElementById('left_wheels'),
+          multitouch: true,
+          position: {top: '50%', left: '15%'},
+          mode: 'static',
+          color: '#ff33ff',
+          lockY: true,
+          maxNumberOfNipples: 2,
+      };
+      var left_joystick = nipplejs.create(options);
+      var left_wheels = 0;
+      console.log(left_joystick);
+
+      var options_right = {
+          zone: document.getElementById('right_wheels'),
+          multitouch: true,
+          position: {top: '50%', right: '15%'},
+          mode: 'static',
+          color: '#ff33ff',
+          lockY: true,
+          maxNumberOfNipples: 2
+      };
+      var right_joystick = nipplejs.create(options_right);
+      var right_wheels = 0;
+
+      left_joystick.on('move', function (evt, data) {
+         if ( left_wheels !== data.vector.y ) {
+             left_wheels = data.vector.y;
+             socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+         }
+      })
+      left_joystick.on('end', function (evt, data) {
+          left_wheels = 0;
+          socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+      })
+      right_joystick.on('move', function (evt, data) {
+         if ( right_wheels !== data.vector.y ) {
+             right_wheels = data.vector.y;
+             socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+         }
+      })
+      right_joystick.on('end', function (evt, data) {
+          right_wheels = 0;
+          socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+      })
+      // console.log(left_joystick);
+
       var urlParams = new URLSearchParams(window.location.search);
       if ( urlParams.has('token') ) { token = urlParams.get('token'); }
       var team = urlParams.get('team');
@@ -91,6 +141,7 @@
           console.log(bucket);
           socket.emit(vehicle, 'bucket', bucket, team, token);
       }
+
     </script>
   </body>
 </html>

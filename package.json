@@ -2,11 +2,13 @@
   "name": "robot-wars",
   "version": "0.1.1",
   "description": "Web interface for controlling remote control trucks",
+  "website": "https://robot-wars-usyd.herokuapp.com/",
+  "repository": "https://github.com/benjym/robot-wars",
   "dependencies": {
-    "bonescript": "^0.7.4-beta1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "johnny-five": "^2.1.0",
+    "nipplejs": "^0.9.0",
     "socket.io": "^4.1.2",
     "socket.io-client": "^4.4.0"
   },
