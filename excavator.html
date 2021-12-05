@@ -26,17 +26,20 @@
     <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
         onmouseup="left_wheels.value = 0; emit('left_wheels',0)"
         ontouchend="left_wheels.value = 0; emit('left_wheels',0)"
+        ontouchcancel="left_wheels.value = 0; emit('left_wheels',0)"
         onkeyup="left_wheels.value = 0; emit('left_wheels',0)"
         oninput="emit('left_wheels',left_wheels.value)"
     >
     <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
         onmouseup="right_wheels.value = 0; emit('right_wheels',0)"
         ontouchend="right_wheels.value = 0; emit('right_wheels',0)"
+        ontouchcancel="right_wheels.value = 0; emit('right_wheels',0)"
         onkeyup="right_wheels.value = 0; emit('right_wheels',0)"
         oninput="emit('right_wheels',right_wheels.value)"
     >
     <button class="button" id="arm_1_up"
         ontouchend="emit('arm_1',0)"
+        ontouchcancel="emit('arm_1',0)"
         onkeyup="emit('arm_1',0)"
         onmouseup="emit('arm_1',0)"
 
@@ -46,6 +49,7 @@
     ><i class="material-icons">north</i></button>
     <button class="button" id="arm_1_down"
         ontouchend="emit('arm_1',0)"
+        ontouchcancel="emit('arm_1',0)"
         onkeyup="emit('arm_1',0)"
         onmouseup="emit('arm_1',0)"
 
@@ -56,6 +60,7 @@
 
     <button class="button" id="arm_2_up"
         ontouchend="emit('arm_2',0)"
+        ontouchcancel="emit('arm_2',0)"
         onkeyup="emit('arm_2',0)"
         onmouseup="emit('arm_2',0)"
 
@@ -65,6 +70,7 @@
     ><i class="material-icons">north</i></button>
     <button class="button" id="arm_2_down"
         ontouchend="emit('arm_2',0)"
+        ontouchcancel="emit('arm_2',0)"
         onkeyup="emit('arm_2',0)"
         onmouseup="emit('arm_2',0)"
 
@@ -96,6 +102,7 @@
         ontouchend="emit('bucket',0)"
         onkeyup="emit('bucket',0)"
         onmouseup="emit('bucket',0)"
+        ontouchcancel="emit('bucket',0)"
 
         ontouchstart="emit('bucket',1)"
         onkeydown="emit('bucket',1)"
@@ -105,6 +112,7 @@
         ontouchend="emit('bucket',0)"
         onkeyup="emit('bucket',0)"
         onmouseup="emit('bucket',0)"
+        ontouchcancel="emit('bucket',0)"
 
         ontouchstart="emit('bucket',-1)"
         onkeydown="emit('bucket',-1)"
@@ -115,6 +123,7 @@
         ontouchend="emit('slew',0)"
         onkeyup="emit('slew',0)"
         onmouseup="emit('slew',0)"
+        ontouchcancel="emit('slew',0)"
 
         ontouchstart="emit('slew',1)"
         onkeydown="emit('slew',1)"
@@ -124,6 +133,7 @@
         ontouchend="emit('slew',0)"
         onkeyup="emit('slew',0)"
         onmouseup="emit('slew',0)"
+        ontouchcancel="emit('slew',0)"
 
         ontouchstart="emit('slew',-1)"
         onkeydown="emit('slew',-1)"

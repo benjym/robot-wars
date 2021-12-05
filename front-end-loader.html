@@ -26,17 +26,20 @@
     <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
        onmouseup="left_wheels.value = 0; update_left_wheels()"
        ontouchend="left_wheels.value = 0; update_left_wheels()"
+       ontouchcancel="left_wheels.value = 0; update_left_wheels()"
        onkeyup="left_wheels.value = 0; update_left_wheels()"
        oninput="update_left_wheels()"
     >
     <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
        onmouseup="right_wheels.value = 0; update_right_wheels()"
        ontouchend="right_wheels.value = 0; update_right_wheels()"
+       ontouchcancel="right_wheels.value = 0; update_right_wheels()"
        onkeyup="right_wheels.value = 0; update_right_wheels()"
        oninput="update_right_wheels()"
     >
     <button class="button" id="bucket_up"
        ontouchend="bucket = 0; update_bucket()"
+       ontouchcancel="bucket = 0; update_bucket()"
        onkeyup="bucket = 0; update_bucket()"
        onmouseup="bucket = 0; update_bucket()"
 
@@ -46,6 +49,7 @@
     ><i class="material-icons">north</i></button>
     <button class="button" id="bucket_down"
        ontouchend="bucket = 0; update_bucket()"
+       ontouchcancel="bucket = 0; update_bucket()"
        onkeyup="bucket = 0; update_bucket()"
        onmouseup="bucket = 0; update_bucket()"
 
