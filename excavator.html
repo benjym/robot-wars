@@ -19,25 +19,13 @@
 
       gtag('config', 'G-GQE06JN33T');
     </script>
+    <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script>
   </head>
-  <body>
+  <body scroll="no" oncontextmenu="return false">
     <script src="/socket.io/socket.io.js"></script>
-
-    <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
-        onmouseup="left_wheels.value = 0; emit('left_wheels',0)"
-        ontouchend="left_wheels.value = 0; emit('left_wheels',0)"
-        ontouchcancel="left_wheels.value = 0; emit('left_wheels',0)"
-        onkeyup="left_wheels.value = 0; emit('left_wheels',0)"
-        oninput="emit('left_wheels',left_wheels.value)"
-    >
-    <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
-        onmouseup="right_wheels.value = 0; emit('right_wheels',0)"
-        ontouchend="right_wheels.value = 0; emit('right_wheels',0)"
-        ontouchcancel="right_wheels.value = 0; emit('right_wheels',0)"
-        onkeyup="right_wheels.value = 0; emit('right_wheels',0)"
-        oninput="emit('right_wheels',right_wheels.value)"
-    >
-    <button class="button" id="arm_1_up"
+    <div id="left_wheels"></div>
+    <div id="right_wheels"></div>
+    <button id="arm_1_up"
         ontouchend="emit('arm_1',0)"
         ontouchcancel="emit('arm_1',0)"
         onkeyup="emit('arm_1',0)"
@@ -47,7 +35,7 @@
         onkeydown="emit('arm_1',1)"
         onmousedown="emit('arm_1',1)"
     ><i class="material-icons">north</i></button>
-    <button class="button" id="arm_1_down"
+    <button id="arm_1_down"
         ontouchend="emit('arm_1',0)"
         ontouchcancel="emit('arm_1',0)"
         onkeyup="emit('arm_1',0)"
@@ -58,7 +46,7 @@
         onmousedown="emit('arm_1',-1)"
     ><i class="material-icons">south</i></button>
 
-    <button class="button" id="arm_2_up"
+    <button id="arm_2_up"
         ontouchend="emit('arm_2',0)"
         ontouchcancel="emit('arm_2',0)"
         onkeyup="emit('arm_2',0)"
@@ -68,7 +56,7 @@
         onkeydown="emit('arm_2',1)"
         onmousedown="emit('arm_2',1)"
     ><i class="material-icons">north</i></button>
-    <button class="button" id="arm_2_down"
+    <button id="arm_2_down"
         ontouchend="emit('arm_2',0)"
         ontouchcancel="emit('arm_2',0)"
         onkeyup="emit('arm_2',0)"
@@ -79,26 +67,7 @@
         onmousedown="emit('arm_2',-1)"
     ><i class="material-icons">south</i></button>
 
-    <!-- <button class="button" id="arm_3_up"
-        ontouchend="emit('arm_3',0)"
-        onkeyup="emit('arm_3',0)"
-        onmouseup="emit('arm_3',0)"
-
-        ontouchstart="emit('arm_3',1)"
-        onkeydown="emit('arm_3',1)"
-        onmousedown="emit('arm_3',1)"
-    ><i class="material-icons">north</i></button>
-    <button class="button" id="arm_3_down"
-        ontouchend="emit('arm_3',0)"
-        onkeyup="emit('arm_3',0)"
-        onmouseup="emit('arm_3',0)"
-
-        ontouchstart="emit('arm_3',-1)"
-        onkeydown="emit('arm_3',-1)"
-        onmousedown="emit('arm_3',-1)"
-    ><i class="material-icons">south</i></button> -->
-
-    <button class="button" id="exc_bucket_up"
+    <button id="exc_bucket_up"
         ontouchend="emit('bucket',0)"
         onkeyup="emit('bucket',0)"
         onmouseup="emit('bucket',0)"
@@ -108,7 +77,7 @@
         onkeydown="emit('bucket',1)"
         onmousedown="emit('bucket',1)"
     ><i class="material-icons">north</i></button>
-    <button class="button" id="exc_bucket_down"
+    <button id="exc_bucket_down"
         ontouchend="emit('bucket',0)"
         onkeyup="emit('bucket',0)"
         onmouseup="emit('bucket',0)"
@@ -119,7 +88,7 @@
         onmousedown="emit('bucket',-1)"
     ><i class="material-icons">south</i></button>
 
-    <button class="button" id="slew_left"
+    <button id="slew_left"
         ontouchend="emit('slew',0)"
         onkeyup="emit('slew',0)"
         onmouseup="emit('slew',0)"
@@ -129,7 +98,7 @@
         onkeydown="emit('slew',1)"
         onmousedown="emit('slew',1)"
     ><i class="material-icons">rotate_left</i></button>
-    <button class="button" id="slew_right"
+    <button id="slew_right"
         ontouchend="emit('slew',0)"
         onkeyup="emit('slew',0)"
         onmouseup="emit('slew',0)"
@@ -144,40 +113,68 @@
     <div id="exc_bucket_text"><h2>Bucket</h2></div>
     <div id="arm_1_text"><h2>Boom</h2></div>
     <div id="arm_2_text"><h2>Dipper</h2></div>
-    <!-- <div id="arm_3_text"><h2>?</h2></div> -->
     <div id="slew_text"><h2>Slew</h2></div>
 
     <script>
       var vehicle = 'excavator'; // front end loader on team A by default
       var token = '-1';
-      var bucket = 0;
       var server = 'https://robot-wars-usyd.herokuapp.com/';
+      var left_wheels = 0;
+      var right_wheels = 0;
 
       var urlParams = new URLSearchParams(window.location.search);
       if ( urlParams.has('token') ) { token = urlParams.get('token'); }
       var team = urlParams.get('team');
 
-      var socket = io(server, {
-          // cors: {
-            // origin: "https://example.com",
-            // methods: ["GET", "POST"]
-          // }
+      var options = {
+          zone: document.getElementById('left_wheels'),
+          multitouch: true,
+          position: {top: '50%', left: '15%'},
+          mode: 'static',
+          color: '#ff33ff',
+          lockY: true,
+      };
+      var left_joystick = nipplejs.create(options);
+
+      options.zone = document.getElementById('right_wheels');
+      options.position = {top: '50%', right: '15%'};
+      var right_joystick = nipplejs.create(options);
+
+      var socket = io(server);
+
+      socket.on('connect', () => {
+          left_joystick.on('move', (evt, data) => {
+              if ( Math.abs( data.vector.y ) > 0.5 ) {
+                  if ( left_wheels !== Math.sign(data.vector.y) ) {
+                     left_wheels = Math.sign(data.vector.y);
+                     console.log(left_wheels);
+                     socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+                 }
+             }
+          })
+          left_joystick.on('end', (evt, data) => {
+              left_wheels = 0;
+              socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+          })
+          right_joystick.on('move', (evt, data) => {
+              if ( Math.abs( data.vector.y ) > 0.5 ) {
+                  if ( right_wheels !== Math.sign(data.vector.y) ) {
+                     right_wheels = Math.sign(data.vector.y);
+                     console.log(right_wheels);
+                     socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+                 }
+             }
+          })
+          right_joystick.on('end', () => {
+              right_wheels = 0;
+              socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+          })
       });
 
       function emit(component,value) {
          console.log(component,value);
          socket.emit(vehicle, component, value, team, token);
       }
-
-      // function update_right_wheels() {
-      //    console.log(right_wheels.value);
-      //    socket.emit(vehicle, 'right_wheels', right_wheels.value, team, token);
-      // }
-      //
-      // function update_bucket() {
-      //     console.log(bucket);
-      //     socket.emit(vehicle, 'bucket', bucket, team, token);
-      // }
     </script>
   </body>
 </html>

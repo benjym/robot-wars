@@ -21,26 +21,12 @@
     </script>
     <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script>
   </head>
-  <body>
-    <!-- <script src="/socket.io/socket.io.js"></script> -->
+  <body scroll="no" oncontextmenu="return false">
+    <script src="/socket.io/socket.io.js"></script>
     <!-- <div class="zone"></div> -->
     <div id="left_wheels"></div>
     <div id="right_wheels"></div>
-    <!-- <input class="slider" id="left_wheels" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="left_wheels.value = 0; update_left_wheels()"
-       ontouchend="left_wheels.value = 0; update_left_wheels()"
-       ontouchcancel="left_wheels.value = 0; update_left_wheels()"
-       onkeyup="left_wheels.value = 0; update_left_wheels()"
-       oninput="update_left_wheels()"
-    > -->
-    <!-- <input class="slider" id="right_wheels" type="range" orient="vertical" min="-1" max="1"
-       onmouseup="right_wheels.value = 0; update_right_wheels()"
-       ontouchend="right_wheels.value = 0; update_right_wheels()"
-       ontouchcancel="right_wheels.value = 0; update_right_wheels()"
-       onkeyup="right_wheels.value = 0; update_right_wheels()"
-       oninput="update_right_wheels()"
-    > -->
-    <button class="button" id="bucket_up"
+    <button id="bucket_up"
        ontouchend="bucket = 0; update_bucket()"
        ontouchcancel="bucket = 0; update_bucket()"
        onkeyup="bucket = 0; update_bucket()"
@@ -50,7 +36,7 @@
        onkeydown="bucket = 1; update_bucket()"
        onmousedown="bucket = 1; update_bucket()"
     ><i class="material-icons">north</i></button>
-    <button class="button" id="bucket_down"
+    <button id="bucket_down"
        ontouchend="bucket = 0; update_bucket()"
        ontouchcancel="bucket = 0; update_bucket()"
        onkeyup="bucket = 0; update_bucket()"
@@ -66,8 +52,14 @@
       var vehicle = 'dump-truck'; // front end loader on team A by default
       var token = '-1';
       var bucket = 0;
+      var left_wheels = 0;
+      var right_wheels = 0;
       var server = 'https://robot-wars-usyd.herokuapp.com/';
       // var server = 'http://localhost:3000'
+
+      var urlParams = new URLSearchParams(window.location.search);
+      if ( urlParams.has('token') ) { token = urlParams.get('token'); }
+      var team = urlParams.get('team');
 
       var options = {
           zone: document.getElementById('left_wheels'),
@@ -76,55 +68,42 @@
           mode: 'static',
           color: '#ff33ff',
           lockY: true,
-          maxNumberOfNipples: 2,
       };
       var left_joystick = nipplejs.create(options);
-      var left_wheels = 0;
-      console.log(left_joystick);
 
-      var options_right = {
-          zone: document.getElementById('right_wheels'),
-          multitouch: true,
-          position: {top: '50%', right: '15%'},
-          mode: 'static',
-          color: '#ff33ff',
-          lockY: true,
-          maxNumberOfNipples: 2
-      };
-      var right_joystick = nipplejs.create(options_right);
-      var right_wheels = 0;
+      options.zone = document.getElementById('right_wheels');
+      options.position = {top: '50%', right: '15%'};
+      var right_joystick = nipplejs.create(options);
 
-      left_joystick.on('move', function (evt, data) {
-         if ( left_wheels !== data.vector.y ) {
-             left_wheels = data.vector.y;
-             socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
-         }
-      })
-      left_joystick.on('end', function (evt, data) {
-          left_wheels = 0;
-          socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
-      })
-      right_joystick.on('move', function (evt, data) {
-         if ( right_wheels !== data.vector.y ) {
-             right_wheels = data.vector.y;
-             socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
-         }
-      })
-      right_joystick.on('end', function (evt, data) {
-          right_wheels = 0;
-          socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
-      })
-      // console.log(left_joystick);
+      var socket = io(server);
 
-      var urlParams = new URLSearchParams(window.location.search);
-      if ( urlParams.has('token') ) { token = urlParams.get('token'); }
-      var team = urlParams.get('team');
-
-      var socket = io(server, {
-          // cors: {
-            // origin: "https://example.com",
-            // methods: ["GET", "POST"]
-          // }
+      socket.on('connect', () => {
+          left_joystick.on('move', (evt, data) => {
+              if ( Math.abs( data.vector.y ) > 0.5 ) {
+                  if ( left_wheels !== Math.sign(data.vector.y) ) {
+                     left_wheels = Math.sign(data.vector.y);
+                     console.log(left_wheels);
+                     socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+                 }
+             }
+          })
+          left_joystick.on('end', (evt, data) => {
+              left_wheels = 0;
+              socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+          })
+          right_joystick.on('move', (evt, data) => {
+              if ( Math.abs( data.vector.y ) > 0.5 ) {
+                  if ( right_wheels !== Math.sign(data.vector.y) ) {
+                     right_wheels = Math.sign(data.vector.y);
+                     console.log(right_wheels);
+                     socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+                 }
+             }
+          })
+          right_joystick.on('end', () => {
+              right_wheels = 0;
+              socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+          })
       });
 
       function update_left_wheels() {
