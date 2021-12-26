@@ -10,11 +10,13 @@ const io = new Server(httpServer, { /* options */ });
 var BBG_ID = 0;
 
 const port = process.env.PORT || 3000;
+var display_server_id = -1;
 
 app.use('/', express.static(__dirname + '/')); // serve data files
 
 io.on('connection', (socket) => { // when a user connects
   console.log('a user connected');
+  socket.broadcast.emit('new-peer-server-id', display_server_id);
 
   socket.on('i-am-the-BBG', id => {
       console.log('The BBG connected with socket id ' + id)
@@ -36,9 +38,10 @@ io.on('connection', (socket) => { // when a user connects
     socket.to(BBG_ID).emit('excavator', actuator, value, team, token );
   });
 
-  socket.on('peer-server-id-update', (server_id) => {
-      console.log('Updated server id: ' + server_id);
-      socket.broadcast.emit('new-peer-server-id', server_id);
+  socket.on('peer-server-id-update', (id) => {
+      display_server_id = id;
+      console.log('Updated server id: ' + id);
+      socket.broadcast.emit('new-peer-server-id', id);
   });
 
   socket.on('disconnect', () => {

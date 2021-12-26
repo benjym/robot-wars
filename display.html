@@ -44,8 +44,7 @@
 
         <script>
 
-        var server = 'https://robot-wars-usyd.herokuapp.com/';
-        // var server = 'http://localhost:3000'
+        var server = window.location.protocol + '//' + window.location.host;
         var socket = io(server);
 
         socket.on('connect', () => {

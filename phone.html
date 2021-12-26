@@ -17,40 +17,39 @@
           <option value="EXCA">Excavator A</option>
           <option value="EXCB">Excavator B</option>
       </select>
-      <br>
-      <div id=success_text></div>
       <script>
-          document.getElementById("vehicle").addEventListener("change", open_connection);
+          vehicle = document.getElementById("vehicle");
+          vehicle.style.display = 'none'; // hide it
 
-          var server = 'https://robot-wars-usyd.herokuapp.com/';
-          // var server = 'http://localhost:3000'
+          vehicle.addEventListener("change", open_connection);
+
+          var server = window.location.protocol + '//' + window.location.host;
           var socket = io(server);
 
           var peer_id;
           var peer_server_id;
           var peer = new Peer();
-
-          var success_text = document.getElementById('success_text');
+          var ready = 0;
 
           socket.on('connect', () => {
+              socket.on('new-peer-server-id', (server_id) => {
+                  peer_server_id = server_id;
+                  ready += 1;
+                  if ( ready >= 2 ) { vehicle.style.display = 'block'; }
+              })
               peer.on('open', function(id) {
                   peer_id = id;
-                  socket.on('new-peer-server-id', (server_id) => {
-                      peer_server_id = server_id;
-                  })
+                  ready += 1;
+                  if ( ready >= 2 ) { vehicle.style.display = 'block'; }
               });
           });
 
-
           function open_connection() {
-              var vehicle = document.getElementById("vehicle").value;
               var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
               getUserMedia({video: true, audio: false}, function(stream) {
-                  var call = peer.call(peer_server_id, stream, { metadata: { vehicle: vehicle } });
-                  // success_text.innerHTML = 'Connected to display';
+                  var call = peer.call(peer_server_id, stream, { metadata: { vehicle: vehicle.value } });
               }, function(err) {
                   console.log('Failed to get local stream' ,err);
-                  // success_text.innerHTML = 'Disconnected';
               });
             }
       </script>
