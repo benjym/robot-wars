@@ -1,0 +1,65 @@
+body { margin: 0;
+    /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; */
+    font-family: 'Montserrat', sans-serif;
+    font-size: x-large;
+    overflow: hidden;
+}
+
+span {
+    position: absolute;
+    bottom: 0;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    /* opacity: 0.5; */
+}
+
+.display-wrapper {
+    /* margin:5px; */
+    min-height: 100%;
+
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+
+.blue-video-border {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border: 5px solid blue;
+    overflow: hidden;
+}
+
+.red-video-border {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border: 5px solid red;
+    overflow: hidden;
+}
+
+
+#vehicle {
+    display: block;
+    margin: 0 auto;
+    font-size: x-large;
+}
+
+#success_text{
+    /* display: block; */
+    /* margin: 0 auto; */
+    text-align: center;
+    font-size: x-large;
+}

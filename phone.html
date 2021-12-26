@@ -45,7 +45,7 @@
           function open_connection() {
               var vehicle = document.getElementById("vehicle").value;
               var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-              getUserMedia({video: true, audio: true}, function(stream) {
+              getUserMedia({video: true, audio: false}, function(stream) {
                   var call = peer.call(peer_server_id, stream, { metadata: { vehicle: vehicle } });
                   // success_text.innerHTML = 'Connected to display';
               }, function(err) {
