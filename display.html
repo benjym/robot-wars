@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Robot Wars Display</title>
+        <link rel="stylesheet" href="css/main.css">
+        <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+        <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
+    </head>
+    <body>
+        <h1 style="text-align:center;margin:15px;">Robot Wars</h1>
+        <div class='display-wrapper'>
+            <div class='row'>
+                <div class='column blue-video-border'>
+                    <video id='FELA' width="100%" height="100%"></video>
+                </div>
+                <div class='column blue-video-border'>
+                    <video id='DMPA' width="100%" height="100%"></video>
+                </div>
+                <div class='column blue-video-border'>
+                    <video id='EXCA' width="100%" height="100%"></video>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='column red-video-border'>
+                    <video id='FELB' width="100%" height="100%"></video>
+                </div>
+                <div class='column red-video-border'>
+                    <video id='DMPB' width="100%" height="100%"></video>
+                </div>
+                <div class='column red-video-border'>
+                    <video id='EXCB' width="100%" height="100%"></video>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+        // var server = 'https://robot-wars-usyd.herokuapp.com/';
+        var server = 'http://localhost:3000'
+        var socket = io(server);
+
+        socket.on('connect', () => {
+
+            var peer = new Peer();
+
+            peer.on('open', function(id) {
+              console.log('My peer ID is: ' + id);
+              socket.emit('peer-server-id-update', id);
+            });
+
+            var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+            peer.on('call', function(call) {
+              getUserMedia({video: true, audio: true}, function(stream) {
+                call.answer(stream); // Answer the call with an A/V stream.
+                call.on('stream', function(remoteStream) {
+                    // console.log(call.metadata);
+                    var video = document.getElementById(call.metadata.vehicle);
+                    video.srcObject = remoteStream;
+                    video.onloadedmetadata = function(e) {
+                      video.play();
+                    };
+                });
+              }, function(err) {
+                console.log('Failed to get local stream' ,err);
+              });
+            });
+        });
+
+      </script>
+  </body>
+</html>

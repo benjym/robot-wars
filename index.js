@@ -36,6 +36,10 @@ io.on('connection', (socket) => { // when a user connects
     socket.to(BBG_ID).emit('excavator', actuator, value, team, token );
   });
 
+  socket.on('peer-server-id-update', (server_id) => {
+      console.log('Updated server id: ' + server_id);
+      socket.broadcast.emit('new-peer-server-id', server_id);
+  });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phone controls</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
+  </head>
+  <body>
+      <h1>Select this vehicle</h1>
+      <select name="vehicle" id="vehicle">
+          <option label=" "></option>
+          <option value="FELA">Front End Loader A</option>
+          <option value="FELB">Front End Loader B</option>
+          <option value="DMPA">Dump Truck A</option>
+          <option value="DMPB">Dump Truck B</option>
+          <option value="EXCA">Excavator A</option>
+          <option value="EXCB">Excavator B</option>
+      </select>
+      <br>
+      <div id=success_text></div>
+      <script>
+          document.getElementById("vehicle").addEventListener("change", open_connection);
+
+          // var server = 'https://robot-wars-usyd.herokuapp.com/';
+          var server = 'http://localhost:3000'
+          var socket = io(server);
+
+          var peer_id;
+          var peer_server_id;
+          var peer = new Peer();
+
+          var success_text = document.getElementById('success_text');
+
+          socket.on('connect', () => {
+              peer.on('open', function(id) {
+                  peer_id = id;
+                  socket.on('new-peer-server-id', (server_id) => {
+                      peer_server_id = server_id;
+                  })
+              });
+          });
+
+
+          function open_connection() {
+              var vehicle = document.getElementById("vehicle").value;
+              var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+              getUserMedia({video: true, audio: true}, function(stream) {
+                  var call = peer.call(peer_server_id, stream, { metadata: { vehicle: vehicle } });
+                  // success_text.innerHTML = 'Connected to display';
+              }, function(err) {
+                  console.log('Failed to get local stream' ,err);
+                  // success_text.innerHTML = 'Disconnected';
+              });
+            }
+      </script>
+  </body>
+</html>
