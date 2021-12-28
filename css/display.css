@@ -2,7 +2,12 @@ body { margin: 0;
     /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; */
     font-family: 'Montserrat', sans-serif;
     font-size: x-large;
-    overflow: hidden;
+    /* overflow: hidden; */
+}
+
+h1 {
+    text-align:center;
+    margin:12px;
 }
 
 span {
@@ -34,20 +39,21 @@ span {
     flex: 1;
 }
 
-.blue-video-border {
+.border {
     position: relative;
     height: 100%;
     width: 100%;
-    border: 5px solid blue;
-    overflow: hidden;
+    /* overflow: hidden; */
+    margin: 5px;
+    border-radius: 10px;
 }
 
-.red-video-border {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    border: 5px solid red;
-    overflow: hidden;
+.blue {
+    border: 10px solid blue;
+}
+
+.red {
+    border: 10px solid red;
 }
 
 
