@@ -124,16 +124,17 @@
             var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
             peer.on('call', function(call) {
-              getUserMedia({video: true, audio: false}, function(stream) {
-                call.answer(stream); // Answer the call with an A/V stream.
-                call.on('stream', function(remoteStream) {
+              // getUserMedia({video: true, audio: false}, function(stream) {
+              // call.answer(stream); // Answer the call with an A/V stream.
+              call.answer();
+              call.on('stream', function(remoteStream) {
                     // console.log(call.metadata);
                     var video = document.getElementById(call.metadata.vehicle);
                     video.srcObject = remoteStream;
                     video.onloadedmetadata = function(e) {
                       video.play();
                     };
-                });
+                // });
               }, function(err) {
                 console.log('Failed to get local stream' ,err);
               });
