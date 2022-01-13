@@ -36,11 +36,13 @@
 
           socket.on('connect', () => {
               socket.on('new-peer-server-id', (server_id) => {
+                  console.log('got a peer server update via socketio ')
                   peer_server_id = server_id;
                   ready += 1;
                   if ( ready >= 2 ) { vehicle.style.display = 'block'; }
               })
               peer.on('open', function(id) {
+                  console.log('made peer connection')
                   peer_id = id;
                   ready += 1;
                   if ( ready >= 2 ) { vehicle.style.display = 'block'; }
