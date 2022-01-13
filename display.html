@@ -53,7 +53,7 @@
 
         var server = window.location.protocol + '//' + window.location.host;
         var socket = io(server);
-        var colors = ['blue','red'];
+        var colors = ['rgba(0,0,255,0.8)','rgba(255,0,0,0.8)'];
         // var all_actuators = ['left-wheels-forward','left-wheels-reverse','right-wheels-forward','right-wheels-reverse'];
 
         socket.on('connect', () => {
@@ -63,7 +63,7 @@
               // console.log(actuator + ' should be set to ' + value + ' for team ' + team);
               var im = document.getElementById('dump-truck-'+team+'-schematic')
               if (value === 1) {
-                  console.log(actuator + '-forward')
+                  // console.log(actuator + '-forward')
                   im.contentDocument.getElementById(actuator + '-forward').children[0].style.fill = colors[Number(team=='b')];
                   im.contentDocument.getElementById(actuator + '-reverse').children[0].style.fill = 'none';
               }
@@ -81,7 +81,7 @@
               // console.log(actuator + ' should be set to ' + value + ' for team ' + team);
               var im = document.getElementById('front-end-loader-'+team+'-schematic')
               if (value === 1) {
-                  console.log(actuator + '-forward')
+                  // console.log(actuator + '-forward')
                   im.contentDocument.getElementById(actuator + '-forward').children[0].style.fill = colors[Number(team=='b')];
                   im.contentDocument.getElementById(actuator + '-reverse').children[0].style.fill = 'none';
               }
@@ -99,7 +99,7 @@
               // console.log(actuator + ' should be set to ' + value + ' for team ' + team);
               var im = document.getElementById('excavator-'+team+'-schematic')
               if (value === 1) {
-                  console.log(actuator + '-forward')
+                  // console.log(actuator + '-forward')
                   im.contentDocument.getElementById(actuator + '-forward').children[0].style.fill = colors[Number(team=='b')];
                   im.contentDocument.getElementById(actuator + '-reverse').children[0].style.fill = 'none';
               }
@@ -121,23 +121,23 @@
               socket.emit('peer-server-id-update', id);
             });
 
-            var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            // var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
             peer.on('call', function(call) {
-              // getUserMedia({video: true, audio: false}, function(stream) {
-              // call.answer(stream); // Answer the call with an A/V stream.
-              call.answer();
-              call.on('stream', function(remoteStream) {
+                // getUserMedia({video: true, audio: false}, function(stream) {
+                // call.answer(stream); // Answer the call with an A/V stream.
+                call.answer();
+                call.on('stream', function(remoteStream) {
                     // console.log(call.metadata);
                     var video = document.getElementById(call.metadata.vehicle);
                     video.srcObject = remoteStream;
                     video.onloadedmetadata = function(e) {
-                      video.play();
+                        video.play();
                     };
                 // });
-              }, function(err) {
-                console.log('Failed to get local stream' ,err);
-              });
+                }, function(err) {
+                    console.log('Failed to get local stream' ,err);
+                });
             });
         });
 
