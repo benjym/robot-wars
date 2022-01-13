@@ -8,7 +8,7 @@
     <script src="js/adapter.js"></script>
   </head>
   <body>
-      <h1>Select this vehicle</h1>
+      <h1 id="select_tag">Select this vehicle</h1>
       <select name="vehicle" id="vehicle">
           <option label=" "></option>
           <option value="FELA">Front End Loader A</option>
@@ -18,41 +18,74 @@
           <option value="EXCA">Excavator A</option>
           <option value="EXCB">Excavator B</option>
       </select>
+      <p id="socket_tag">✓ Connected to socketio server</p>
+      <p id="peer_tag">✓ Connected to peerjs server</p>
+      <p id="peer_server_id_tag">✓ Got peer server id from socketio</p>
+      <!-- <h1 id="running_tag">CAMERA RUNNING FOR VEHICLE </h1> -->
+
       <script>
           navigator.wakeLock.request(); // keep phone awake if possible
 
           vehicle = document.getElementById("vehicle");
-          vehicle.style.display = 'none'; // hide it
+          socket_tag = document.getElementById("socket_tag");
+          peer_tag = document.getElementById("peer_tag");
+          peer_server_id_tag = document.getElementById("peer_server_id_tag");
+          running_tag = document.getElementById("running_tag");
+          select_tag = document.getElementById('select_tag');
+
+          function reset_UI() {
+              vehicle.style.display = 'none'; // hide it
+              socket_tag.style.display = 'none';
+              peer_tag.style.display = 'none';
+              peer_server_id_tag.style.display = 'none';
+              // running_tag.style.display = 'none';
+              // select_tag.style.display = 'block';
+          }
+          reset_UI();
 
           vehicle.addEventListener("change", open_connection);
 
           var server = window.location.protocol + '//' + window.location.host;
           var socket = io(server);
 
+          var peer;
           var peer_id;
           var peer_server_id;
-          var peer = new Peer();
           var ready = 0;
 
           socket.on('connect', () => {
+
+              socket_tag.style.display = 'block';
+              peer = new Peer();
+
               socket.on('new-peer-server-id', (server_id) => {
-                  console.log('got a peer server update via socketio ')
+                  // console.log('got a peer server update via socketio ')
                   peer_server_id = server_id;
-                  ready += 1;
-                  if ( ready >= 2 ) { vehicle.style.display = 'block'; }
+                  peer_server_id_tag.style.display = 'block';
+                  vehicle.style.display = 'block';
               })
               peer.on('open', function(id) {
-                  console.log('made peer connection')
-                  peer_id = id;
-                  ready += 1;
-                  if ( ready >= 2 ) { vehicle.style.display = 'block'; }
+                  peer_tag.style.display = 'block';
+              });
+              peer.on('disconnect', () => {
+                  document.body.style.backgroundColor = "white";
               });
           });
+
+
 
           function open_connection() {
               var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
               getUserMedia({video: true, audio: false}, function(stream) {
                   var call = peer.call(peer_server_id, stream, { metadata: { vehicle: vehicle.value } });
+                  // vehicle.style.display = 'none'; // hide it
+                  // socket_tag.style.display = 'none';
+                  // peer_tag.style.display = 'none';
+                  // peer_server_id_tag.style.display = 'none';
+                  // document.getElementById('select_tag').style.display = 'none';
+                  // running_tag.style.display = 'block';
+                  // running_tag.innerHTML += vehicle.value;
+                  document.body.style.backgroundColor = "black";
               }, function(err) {
                   console.log('Failed to get local stream' ,err);
               });

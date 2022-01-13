@@ -52,9 +52,15 @@ io.on('connection', (socket) => { // when a user connects
       socket.broadcast.emit('new-peer-server-id', id);
   });
 
-  setTimeout(function () { // wait one second then return the peer server id
-    socket.broadcast.emit('new-peer-server-id', display_server_id);
-  }, 1000);
+  setInterval(function () { // wait a while then return the peer server id
+    if ( display_server_id !== -1 ) {
+        socket.emit('new-peer-server-id', display_server_id);
+        console.log('updated server id broadcast');
+    }
+    else {
+        console.log('Display not connected');
+    }
+}, 10000);
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
