@@ -43,52 +43,52 @@
           }
           reset_UI();
 
+          var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+          var localStream;
+          getUserMedia({video: true, audio: false}, function(s) {
+              localStream = s;
+          });
+
           vehicle.addEventListener("change", open_connection);
 
           var server = window.location.protocol + '//' + window.location.host;
           var socket = io(server);
 
-          var peer;
+          var peer = new Peer();
           var peer_id;
           var peer_server_id;
-          var ready = 0;
+
+
 
           socket.on('connect', () => {
 
               socket_tag.style.display = 'block';
-              peer = new Peer();
 
-              socket.on('new-peer-server-id', (server_id) => {
+              socket.emit('request-id', 'DISPLAY_peerJS');
+              socket.on('receive-id', (device, id) => {
                   // console.log('got a peer server update via socketio ')
-                  peer_server_id = server_id;
+                  peer_server_id = id;
                   peer_server_id_tag.style.display = 'block';
                   vehicle.style.display = 'block';
               })
-              peer.on('open', function(id) {
+              peer.on('open', (id) => {
                   peer_tag.style.display = 'block';
+                  peer_id = id;
               });
               peer.on('disconnect', () => {
                   document.body.style.backgroundColor = "white";
               });
+              peer.on('call', function(call) {
+                  call.answer(localStream); // Answer the call with an A/V stream.
+                  console.log('answered the call');
+              });
           });
 
-
-
           function open_connection() {
-              var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-              getUserMedia({video: true, audio: false}, function(stream) {
-                  var call = peer.call(peer_server_id, stream, { metadata: { vehicle: vehicle.value } });
-                  // vehicle.style.display = 'none'; // hide it
-                  // socket_tag.style.display = 'none';
-                  // peer_tag.style.display = 'none';
-                  // peer_server_id_tag.style.display = 'none';
-                  // document.getElementById('select_tag').style.display = 'none';
-                  // running_tag.style.display = 'block';
-                  // running_tag.innerHTML += vehicle.value;
-                  document.body.style.backgroundColor = "black";
-              }, function(err) {
-                  console.log('Failed to get local stream' ,err);
-              });
+              socket.emit('i-am-alive', vehicle.value, peer_id);
+              console.log(vehicle.value + ' connected at id ' + peer_id);
+              var call = peer.call(peer_server_id, localStream, { metadata: { vehicle: vehicle.value } });
+              document.body.style.backgroundColor = "black";
             }
       </script>
   </body>

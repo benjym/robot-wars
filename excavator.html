@@ -22,9 +22,11 @@
     <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script>
   </head>
   <body scroll="no" oncontextmenu="return false">
+    <video autoplay muted id="background-video"></video>
     <div id="info"><div id="info-child">PLEASE ROTATE PHONE</div></div>
     <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <div id="left_wheels"></div>
     <div id="right_wheels"></div>
     <button id="arm_1_up"
@@ -118,6 +120,29 @@
     <div id="slew_text"><span>Slew</span></div>
 
     <script>
+        const createEmptyAudioTrack = () => {
+        const ctx = new AudioContext();
+        const oscillator = ctx.createOscillator();
+        const dst = oscillator.connect(ctx.createMediaStreamDestination());
+        oscillator.start();
+        const track = dst.stream.getAudioTracks()[0];
+        return Object.assign(track, { enabled: false });
+        };
+
+        const createEmptyVideoTrack = ({ width, height }) => {
+        const canvas = Object.assign(document.createElement('canvas'), { width, height });
+        canvas.getContext('2d').fillRect(0, 0, width, height);
+
+        const stream = canvas.captureStream();
+        const track = stream.getVideoTracks()[0];
+
+        return Object.assign(track, { enabled: false });
+        };
+
+        const audioTrack = createEmptyAudioTrack();
+        const videoTrack = createEmptyVideoTrack({ width:640, height:480 });
+        const emptyMediaStream = new MediaStream([audioTrack, videoTrack]);
+
       var vehicle = 'excavator'; // front end loader on team A by default
       var token = '-1';
       var server = window.location.protocol + '//' + window.location.host;
@@ -131,7 +156,7 @@
       var options = {
           zone: document.getElementById('left_wheels'),
           multitouch: true,
-          position: {top: '50%', left: '15%'},
+          position: {top: '50%', left: '10%'},
           mode: 'static',
           color: '#ff33ff',
           lockY: true,
@@ -139,14 +164,36 @@
       var left_joystick = nipplejs.create(options);
 
       options.zone = document.getElementById('right_wheels');
-      options.position = {top: '50%', right: '15%'};
+      options.position = {top: '50%', right: '10%'};
       var right_joystick = nipplejs.create(options);
 
       show_hide_joysticks();
 
       var socket = io(server);
+      var peer = new Peer();
 
       socket.on('connect', () => {
+
+          socket.on('receive-id', (device, remote_id) => {
+              console.log('Received: Device ' + device + ' got ID ' + remote_id);
+
+              peer.on('open', function(id) {
+                console.log('Connected to peerJS server... calling')
+                var call = peer.call(remote_id, emptyMediaStream);
+                call.on('stream', function(remoteStream) {
+                    console.log('got remote stream');
+                    console.log('Received response, streaming')
+                    var video = document.getElementById('background-video');
+                    video.srcObject = remoteStream;
+                    video.onloadedmetadata = function(e) {
+                        video.play();
+                    };
+                });
+              });
+          });
+
+          socket.emit('request-id','EXC'+team.toUpperCase());
+
           left_joystick.on('move', (evt, data) => {
               if ( Math.abs( data.vector.y ) > 0.5 ) {
                   if ( left_wheels !== Math.sign(data.vector.y) ) {

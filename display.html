@@ -57,7 +57,7 @@
         // var all_actuators = ['left-wheels-forward','left-wheels-reverse','right-wheels-forward','right-wheels-reverse'];
 
         socket.on('connect', () => {
-            socket.emit('i-am-the-DISPLAY', socket.id);
+            socket.emit('i-am-alive', 'DISPLAY', socket.id);
 
             socket.on('dump-truck', (actuator, value, team, token ) => {
               // console.log(actuator + ' should be set to ' + value + ' for team ' + team);
@@ -118,7 +118,8 @@
 
             peer.on('open', function(id) {
               console.log('My peer ID is: ' + id);
-              socket.emit('peer-server-id-update', id);
+              // socket.emit('peer-server-id-update', id);
+              socket.emit('i-am-alive', 'DISPLAY_peerJS', id);
             });
 
             // var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;

@@ -32,7 +32,7 @@ var start_pins = {
 
 socket.on("connect", () => {
   console.log('I am the BBG. My socket ID is ' + socket.id); // "G5p5..."
-  socket.emit('i-am-the-BBG', socket.id);
+  socket.emit('i-am-alive', socket.id, 'BBG');
 
   socket.on('front-end-loader', (actuator, value, team) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);

@@ -54,6 +54,29 @@
 
     <div id="bucket_text"><span>Bed</span></div>
     <script>
+        const createEmptyAudioTrack = () => {
+        const ctx = new AudioContext();
+        const oscillator = ctx.createOscillator();
+        const dst = oscillator.connect(ctx.createMediaStreamDestination());
+        oscillator.start();
+        const track = dst.stream.getAudioTracks()[0];
+        return Object.assign(track, { enabled: false });
+        };
+
+        const createEmptyVideoTrack = ({ width, height }) => {
+        const canvas = Object.assign(document.createElement('canvas'), { width, height });
+        canvas.getContext('2d').fillRect(0, 0, width, height);
+
+        const stream = canvas.captureStream();
+        const track = stream.getVideoTracks()[0];
+
+        return Object.assign(track, { enabled: false });
+        };
+
+        const audioTrack = createEmptyAudioTrack();
+        const videoTrack = createEmptyVideoTrack({ width:640, height:480 });
+        const emptyMediaStream = new MediaStream([audioTrack, videoTrack]);
+
       var vehicle = 'dump-truck'; // front end loader on team A by default
       var token = '-1';
       var bucket = 0;
@@ -68,7 +91,7 @@
       var options = {
           zone: document.getElementById('left_wheels'),
           multitouch: true,
-          position: {top: '50%', left: '15%'},
+          position: {top: '50%', left: '10%'},
           mode: 'static',
           color: '#ff33ff',
           lockY: true,
@@ -76,14 +99,37 @@
       var left_joystick = nipplejs.create(options);
       console.log(left_joystick[0])
       options.zone = document.getElementById('right_wheels');
-      options.position = {top: '50%', right: '15%'};
+      options.position = {top: '50%', right: '10%'};
       var right_joystick = nipplejs.create(options);
 
       show_hide_joysticks();
 
       var socket = io(server);
+      var peer = new Peer();
 
       socket.on('connect', () => {
+
+          socket.on('receive-id', (device, remote_id) => {
+              console.log('Received: Device ' + device + ' got ID ' + remote_id);
+
+              peer.on('open', function(id) {
+                console.log('Connected to peerJS server... calling')
+                var call = peer.call(remote_id, emptyMediaStream);
+                call.on('stream', function(remoteStream) {
+                    console.log('got remote stream');
+                    console.log('Received response, streaming')
+                    var video = document.getElementById('background-video');
+                    video.srcObject = remoteStream;
+                    video.onloadedmetadata = function(e) {
+                        video.play();
+                    };
+                });
+              });
+          });
+
+          socket.emit('request-id','DMP'+team.toUpperCase());
+
+
           left_joystick.on('move', (evt, data) => {
               if ( Math.abs( data.vector.y ) > 0.5 ) {
                   if ( left_wheels !== Math.sign(data.vector.y) ) {
@@ -113,31 +159,6 @@
               right_wheels = 0;
               socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
           });
-
-          // var peer = new Peer();
-          //
-          // peer.on('open', function(id) {
-          //   console.log('My peer ID is: ' + id);
-          //   socket.emit('dump-truck-'+team+'-id-update', id);
-          // });
-          //
-          // peer.on('call', function(call) {
-          //     // getUserMedia({video: true, audio: false}, function(stream) {
-          //     // call.answer(stream); // Answer the call with an A/V stream.
-          //     call.answer();
-          //     call.on('stream', function(remoteStream) {
-          //         // console.log(call.metadata);
-          //         var video = document.getElementById('background-video');
-          //         video.srcObject = remoteStream;
-          //         video.onloadedmetadata = function(e) {
-          //             video.play();
-          //         };
-          //     // });
-          //     }, function(err) {
-          //         console.log('Failed to get local stream' ,err);
-          //     });
-          // });
-
 
       });
 
