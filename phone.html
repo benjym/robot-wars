@@ -19,7 +19,7 @@
           <option value="EXCB">Excavator B</option>
       </select>
       <script>
-          // import adapter from 'webrtc-adapter';
+          navigator.wakeLock.request(); // keep phone awake if possible
 
           vehicle = document.getElementById("vehicle");
           vehicle.style.display = 'none'; // hide it
