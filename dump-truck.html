@@ -191,6 +191,31 @@
           socket.emit(vehicle, 'bucket', bucket, team, token);
       }
 
+      // Now add keyboard controls just in case
+      document.addEventListener('keydown', actuateViaKeyboard);
+      document.addEventListener('keyup', deactuateViaKeyboard);
+
+      function actuateViaKeyboard(e) {
+          if ( !event.repeat ) {
+              if ( e.code == 'KeyQ' ) { socket.emit(vehicle, 'left_wheels', 1, team, token); }
+              else if ( e.code == 'KeyA' ) { socket.emit(vehicle, 'left_wheels', -1, team, token); }
+              else if ( e.code == 'KeyW' ) { socket.emit(vehicle, 'bucket', 1, team, token); }
+              else if ( e.code == 'KeyS' ) { socket.emit(vehicle, 'bucket', -1, team, token); }
+              else if ( e.code == 'KeyE' ) { socket.emit(vehicle, 'right_wheels', 1, team, token); }
+              else if ( e.code == 'KeyD' ) { socket.emit(vehicle, 'right_wheels', -1, team, token); }
+          }
+      }
+
+      function deactuateViaKeyboard(e) {
+          if ( e.code == 'KeyQ' ) { socket.emit(vehicle, 'left_wheels', 0, team, token); }
+          else if ( e.code == 'KeyA' ) { socket.emit(vehicle, 'left_wheels', 0, team, token); }
+          else if ( e.code == 'KeyW' ) { socket.emit(vehicle, 'bucket', 0, team, token); }
+          else if ( e.code == 'KeyS' ) { socket.emit(vehicle, 'bucket', 0, team, token); }
+          else if ( e.code == 'KeyE' ) { socket.emit(vehicle, 'right_wheels', 0, team, token); }
+          else if ( e.code == 'KeyD' ) { socket.emit(vehicle, 'right_wheels', 0, team, token); }
+      }
+
+
     </script>
   </body>
 </html>
