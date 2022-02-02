@@ -16,7 +16,7 @@ button {
   background-color: #333;
   /* border: none; */
   color: white;
-  /* padding: -25px; */
+  padding: 0;
   text-align: center;
   height: 50px;
   width: 50px;
@@ -25,18 +25,20 @@ button {
 }
 
 button:active {
-    box-shadow: 0 0 25px 25px #555555;
+    box-shadow: 0 0 20px 20px #555555;
 }
 
 
 #bucket_up {
-    left:35%;
-    top: 50%;
+    left:10%;
+    top: 10%;
+    transform: translate(-50%, 0%);
 }
 
 #bucket_down {
-    right:35%;
-    top: 50%;
+    right:10%;
+    top: 10%;
+    transform: translate(50%, 0%);
 }
 
 #bucket_text {
@@ -48,13 +50,15 @@ button:active {
 }
 
 #exc_bucket_up {
-    left:35%;
-    top: 80%;
+    left:15%;
+    top: 10%;
+    transform: translate(-50%, 0%);
 }
 
 #exc_bucket_down {
-    right:35%;
-    top: 80%;
+    left:5%;
+    top: 10%;
+    transform: translate(-50%, 0%);
 }
 
 #exc_bucket_text {
@@ -66,13 +70,15 @@ button:active {
 }
 
 #arm_1_up {
-    left:35%;
-    top: 60%;
+    left:15%;
+    bottom: 10%;
+    transform: translate(-50%, 0%);
 }
 
 #arm_1_down {
-    right:35%;
-    top: 60%;
+    left:5%;
+    bottom: 10%;
+    transform: translate(-50%, 0%);
 }
 
 #arm_1_text {
@@ -84,13 +90,15 @@ button:active {
 }
 
 #arm_2_up {
-    left:35%;
-    top: 40%;
+    right:5%;
+    top: 10%;
+    transform: translate(50%, 0%);
 }
 
 #arm_2_down {
-    right:35%;
-    top: 40%;
+    right:15%;
+    top: 10%;
+    transform: translate(50%, 0%);
 }
 
 #arm_2_text {
@@ -102,13 +110,15 @@ button:active {
 }
 
 #slew_left {
-    left:35%;
-    top: 20%;
+    right:5%;
+    bottom: 10%;
+    transform: translate(50%, 0%);
 }
 
 #slew_right {
-    right:35%;
-    top: 20%;
+    right:15%;
+    bottom: 10%;
+    transform: translate(50%, 0%);
 }
 
 #slew_text {

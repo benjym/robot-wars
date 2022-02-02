@@ -40,7 +40,7 @@
        ontouchstart="bucket = 1; update_bucket()"
        onkeydown="bucket = 1; update_bucket()"
        onmousedown="bucket = 1; update_bucket()"
-    ><i class="material-icons">north</i></button>
+    ><i class="material-icons">north</i>Bucket</button>
     <button id="bucket_down"
        ontouchend="bucket = 0; update_bucket()"
        ontouchcancel="bucket = 0; update_bucket()"
@@ -50,9 +50,9 @@
        ontouchstart="bucket = -1; update_bucket()"
        onkeydown="bucket = -1; update_bucket()"
        onmousedown="bucket = -1; update_bucket()"
-    ><i class="material-icons">south</i></button>
+    ><i class="material-icons">south</i>Bucket</button>
 
-    <div id="bucket_text"><span>Bed</span></div>
+    <!-- <div id="bucket_text"><span>Bed</span></div> -->
     <script>
         const createEmptyAudioTrack = () => {
         const ctx = new AudioContext();
