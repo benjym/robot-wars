@@ -54,6 +54,16 @@
         var server = window.location.protocol + '//' + window.location.host;
         var socket = io(server);
         var colors = ['rgba(0,0,255,0.8)','rgba(255,0,0,0.8)'];
+        var fuels = {
+            'dump-truck-a': 100,
+            'dump-truck-b': 100,
+            'front-end-loader-a': 100,
+            'front-end-loader-b': 100,
+            'excavator-a': 100,
+            'excavator-b': 100,
+        }
+
+        var all_robots = ['dump-truck-a', 'dump-truck-b', 'front-end-loader-a', 'front-end-loader-b', 'excavator-a', 'excavator-b']
         // var all_actuators = ['left-wheels-forward','left-wheels-reverse','right-wheels-forward','right-wheels-reverse'];
 
         socket.on('connect', () => {
@@ -141,6 +151,16 @@
                 });
             });
         });
+
+        // function update_fuel() {
+        //     all_robots.forEach( robot => {
+        //         // console.log(robot);
+        //     })
+        // }
+
+        // var dt = 1000; // time increment to update fuel in ms
+        // window.setInterval(update_fuel, dt);
+
 
       </script>
   </body>

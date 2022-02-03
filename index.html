@@ -3,23 +3,50 @@
   <head>
     <title>Device control</title>
     <link rel="stylesheet" href="css/main.css">
+    <style>
+    a:link {
+      color: black;
+    }
+
+    a:visited {
+      color: black;
+    }
+    h1, h2 {
+        text-align:center
+    }
+    ul {
+        line-height: 2;
+    }
+    .column {
+
+        margin:10px;
+        border-radius: 5px;
+    }
+    .suce {
+        background-color: rgba(0,0,255,0.8);
+    }
+    .sumo {
+        background-color: rgba(255,0,0,0.8);
+    }
+    </style>
   </head>
   <body>
-      <div class='wrapper' style="background-image: url('images/robowars.jpg');background-size: cover;">
+      <h1>Robot Wars </h1>
+      <!-- <div class='wrapper' style="background-image: url('images/robowars.jpg');background-size: cover;"> -->
           <div class='row'>
             <!-- <div class='column'> -->
                 <!-- <img src="images/robowars.jpg" width="100%"></img> -->
             <!-- </div> -->
-            <div class="column">
-              <h1>Team A</h1>
+            <div class="column suce">
+              <h2>Team SUCE</h1>
               <ul>
                   <li><a href="front-end-loader.html?team=a">Front End Loader</a></li>
                   <li><a href="dump-truck.html?team=a">Dump Truck</a></li>
                   <li><a href="excavator.html?team=a">Excavator</a></li>
               </ul>
             </div>
-            <div class='column'>
-              <h1>Team B</h1>
+            <div class='column sumo'>
+              <h2>Team SUMO</h1>
               <ul>
                   <li><a href="front-end-loader.html?team=b">Front End Loader</a></li>
                   <li><a href="dump-truck.html?team=b">Dump Truck</a></li>
@@ -28,5 +55,5 @@
             </div>
           </div>
       </div>
-  </body>
+  <!-- </body> -->
 </html>
