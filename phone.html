@@ -21,6 +21,7 @@
       <p id="socket_tag">✓ Connected to socketio server</p>
       <p id="peer_tag">✓ Connected to peerjs server</p>
       <p id="peer_server_id_tag">✓ Got peer server id from socketio</p>
+      <img id="qr_code" style="display: block;width: 50%;margin:auto;"></img>
       <!-- <h1 id="running_tag">CAMERA RUNNING FOR VEHICLE </h1> -->
 
       <script>
@@ -30,18 +31,20 @@
           socket_tag = document.getElementById("socket_tag");
           peer_tag = document.getElementById("peer_tag");
           peer_server_id_tag = document.getElementById("peer_server_id_tag");
-          running_tag = document.getElementById("running_tag");
+          // running_tag = document.getElementById("running_tag");
           select_tag = document.getElementById('select_tag');
-
-          function reset_UI() {
-              vehicle.style.display = 'none'; // hide it
-              socket_tag.style.display = 'none';
-              peer_tag.style.display = 'none';
-              peer_server_id_tag.style.display = 'none';
+          qr_code = document.getElementById('qr_code');
+          // function reset_UI() {
+              // vehicle.style.visibility = 'hidden'; // hide it
+          socket_tag.style.display = 'none';
+          peer_tag.style.display = 'none';
+          peer_server_id_tag.style.display = 'none';
+          qr_code.style.display = 'none';
               // running_tag.style.display = 'none';
               // select_tag.style.display = 'block';
-          }
-          reset_UI();
+          // }
+          // reset_UI();
+          var colors = ['rgba(0,0,255,0.8)','rgba(255,0,0,0.8)'];
 
           var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
           var localStream;
@@ -84,11 +87,25 @@
               });
           });
 
+          function change_to_QR_code() {
+              team_id = vehicle.value[3] === 'B' ? 1 : 0;
+              document.body.style.backgroundColor = colors[team_id];
+              console.log(team_id)
+              console.log(colors[team_id])
+              vehicle.style.visibility = 'hidden'; // hide it
+              select_tag.style.display = 'none';
+              socket_tag.style.display = 'none';
+              peer_tag.style.display = 'none';
+              peer_server_id_tag.style.display = 'none';
+              qr_code.src = "../qr-codes/" +  vehicle.value + ".svg";
+              qr_code.style.display = 'block';
+          }
+
           function open_connection() {
               socket.emit('i-am-alive', vehicle.value, peer_id);
               console.log(vehicle.value + ' connected at id ' + peer_id);
               var call = peer.call(peer_server_id, localStream, { metadata: { vehicle: vehicle.value } });
-              document.body.style.backgroundColor = "black";
+              change_to_QR_code();
             }
       </script>
   </body>

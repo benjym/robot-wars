@@ -161,6 +161,39 @@
         // var dt = 1000; // time increment to update fuel in ms
         // window.setInterval(update_fuel, dt);
 
+        /* Get the documentElement (<html>) to display the page in fullscreen */
+        var elem = document.documentElement;
+
+        /* View in fullscreen */
+        function openFullscreen() {
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+          }
+        }
+
+        /* Close fullscreen */
+        function closeFullscreen() {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+          }
+        }
+
+        document.addEventListener('keypress', toggleFullscreen);
+
+        function toggleFullscreen(e) {
+            if ( !event.repeat ) {
+                if ( e.code == 'KeyF' ) { openFullscreen(); }
+                // else if ( e.code == 'Escape' ) { closeFullscreen(); }
+            }
+        }
 
       </script>
   </body>
