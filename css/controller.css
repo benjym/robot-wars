@@ -13,15 +13,19 @@ span {
 }
 
 button {
-  background-color: #333;
-  /* border: none; */
-  color: white;
-  padding: 0;
-  text-align: center;
-  height: 50px;
-  width: 50px;
-  position:absolute;
-  transform: translate(0, -50%); /* move up */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    background-color: #333;
+    /* border: none; */
+    color: white;
+    padding: 0;
+    text-align: center;
+    height: 50px;
+    width: 50px;
+    position:absolute;
+    transform: translate(0, -50%); /* move up */
 }
 
 button:active {
@@ -131,11 +135,11 @@ button:active {
 
 
 .zone {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
 }
 
 /* for all screens */
@@ -145,21 +149,21 @@ button:active {
 }
 
 #info-child {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* only when orientation is in portrait mode */
 @media all and (orientation:portrait) {
     #info {
-         display: block;
-         position:absolute;
-         background: white;
-         z-index: 999;
+        display: block;
+        position:absolute;
+        background: white;
+        z-index: 999;
 
-         text-align: center;
+        text-align: center;
 
         padding:0;
         margin:0;
@@ -173,11 +177,11 @@ button:active {
 }
 
 #background-video {
-  position: fixed;
-  /* right: 0; */
-  /* bottom: 0; */
-  width: 100%;
-  height: 100%;
-  min-width: 100%;
-  min-height: 100%;
+    position: fixed;
+    /* right: 0; */
+    /* bottom: 0; */
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
 }

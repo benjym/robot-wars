@@ -6,7 +6,7 @@ const { Server } = require("socket.io");
 
 const app = express();
 app.use(cors());
-// app.use(enforce.HTTPS());
+
 if (app.get("env") === "production") {
   app.use(enforce.HTTPS({ trustProtoHeader:true }));
 }
