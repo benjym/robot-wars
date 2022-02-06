@@ -1,12 +1,18 @@
 const express = require("express");
 const cors = require('cors');
+var enforce = require('express-sslify');
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 const app = express();
 app.use(cors());
+// app.use(enforce.HTTPS());
+if (app.get("env") === "production") {
+  app.use(enforce.HTTPS({ trustProtoHeader:true }));
+}
 const httpServer = createServer(app);
 const io = new Server(httpServer, { /* options */ });
+
 
 var IDs = {
     'BBG': 0,
