@@ -120,6 +120,8 @@
     <!-- <div id="slew_text"><span>Slew</span></div> -->
 
     <script>
+        // screen.orientation.lock('landscape'); // lock phone to landscape if possible
+
         const createEmptyAudioTrack = () => {
         const ctx = new AudioContext();
         const oscillator = ctx.createOscillator();
@@ -153,12 +155,17 @@
       if ( urlParams.has('token') ) { token = urlParams.get('token'); }
       var team = urlParams.get('team');
 
+      var colors = ['rgba(0,0,255,0.8)','rgba(255,0,0,0.8)'];
+      team_id = team === 'b' ? 1 : 0;
+      document.body.style.backgroundColor = colors[team_id];
+
       var options = {
           zone: document.getElementById('left_wheels'),
           multitouch: true,
           position: {top: '50%', left: '10%'},
           mode: 'static',
-          color: '#ff33ff',
+          color: '#000',
+          restOpacity: 1,
           lockY: true,
       };
       var left_joystick = nipplejs.create(options);
