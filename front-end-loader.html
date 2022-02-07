@@ -26,7 +26,7 @@
     <div id="info"><div id="info-child">PLEASE ROTATE PHONE</div></div>
     <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
-    <script src="https://unpkg.com/peerjs@1.1.0/dist/peerjs.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
     <script src="js/adapter.js"></script>
     <!-- <div class="zone"></div> -->
     <div id="left_wheels"></div>
@@ -120,7 +120,8 @@
           console.log('Received: Device ' + device + ' got ID ' + remote_id);
 
           peer.on('open', function(id) {
-            console.log('Connected to peerJS server... calling')
+            console.log('Connected to peerJS server... calling ' + remote_id);
+            // console.log(emptyMediaStream);
             var call = peer.call(remote_id, emptyMediaStream);
             call.on('stream', function(remoteStream) {
                 console.log('got remote stream');
