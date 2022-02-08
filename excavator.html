@@ -24,7 +24,7 @@
   <body scroll="no" oncontextmenu="return false">
     <video autoplay playsinline muted id="background-video"></video>
     <div id="info"><div id="info-child">PLEASE ROTATE PHONE</div></div>
-    <div id="not-chrome"><div id="not-chrome-child">This app only works with <a href="https://www.google.com/intl/en_au/chrome/">Chrome</a></div></div>
+    <!-- <div id="not-chrome"><div id="not-chrome-child">This app only works with <a href="https://www.google.com/intl/en_au/chrome/">Chrome</a></div></div> -->
     <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
@@ -121,30 +121,30 @@
     <!-- <div id="slew_text"><span>Slew</span></div> -->
 
     <script>
-        var isChromium = window.chrome;
-        var winNav = window.navigator;
-        var vendorName = winNav.vendor;
-        var isOpera = typeof window.opr !== "undefined";
-        var isIEedge = winNav.userAgent.indexOf("Edg") > -1;
-        var isIOSChrome = winNav.userAgent.match("CriOS");
-
-        if (isIOSChrome) {
-            console.log('You are using Chrome on iOS');
-            document.getElementById('not-chrome').style.display = 'none';
-            screen.orientation.lock('landscape'); // lock phone to landscape if possible
-        } else if(
-        isChromium !== null &&
-        typeof isChromium !== "undefined" &&
-        vendorName === "Google Inc." &&
-        isOpera === false &&
-        isIEedge === false
-        ) {
-            console.log('You are using Chrome');
-            screen.orientation.lock('landscape'); // lock phone to landscape if possible
-        }
-        else {
-            document.getElementById('not-chrome').style.display = 'block';
-        }
+        // var isChromium = window.chrome;
+        // var winNav = window.navigator;
+        // var vendorName = winNav.vendor;
+        // var isOpera = typeof window.opr !== "undefined";
+        // var isIEedge = winNav.userAgent.indexOf("Edg") > -1;
+        // var isIOSChrome = winNav.userAgent.match("CriOS");
+        //
+        // if (isIOSChrome) {
+        //     console.log('You are using Chrome on iOS');
+        //     document.getElementById('not-chrome').style.display = 'none';
+        //     screen.orientation.lock('landscape'); // lock phone to landscape if possible
+        // } else if(
+        // isChromium !== null &&
+        // typeof isChromium !== "undefined" &&
+        // vendorName === "Google Inc." &&
+        // isOpera === false &&
+        // isIEedge === false
+        // ) {
+        //     console.log('You are using Chrome');
+        //     screen.orientation.lock('landscape'); // lock phone to landscape if possible
+        // }
+        // else {
+        //     document.getElementById('not-chrome').style.display = 'block';
+        // }
 
         const createEmptyAudioTrack = () => {
         const ctx = new AudioContext();
