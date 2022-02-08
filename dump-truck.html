@@ -134,7 +134,7 @@
       options.position = {top: '50%', right: '10%'};
       var right_joystick = nipplejs.create(options);
 
-      show_hide_joysticks();
+      // show_hide_joysticks();
 
       var socket = io(server);
       var peer = new Peer();
@@ -206,7 +206,7 @@
       }
 
       // Listen for orientation changes
-      window.addEventListener("orientationchange", show_hide_joysticks);
+      // window.addEventListener("orientationchange", show_hide_joysticks);
 
       function update_left_wheels() {
          console.log(left_wheels.value);
