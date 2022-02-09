@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Excavator</title>
+    <title>Robowars</title>
     <link rel="stylesheet" href="css/controller.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,50 +29,37 @@
     <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
     <div id="left_wheels"></div>
     <div id="right_wheels"></div>
-    <button id="arm_1_up"><i class="material-icons">north</i>Boom</button>
-    <button id="arm_1_down"><i class="material-icons">south</i>Boom</button>
-    <button id="arm_2_up"><i class="material-icons">north</i>Dipper</button>
-    <button id="arm_2_down"><i class="material-icons">south</i>Dipper</button>
-    <button id="exc_bucket_up"><i class="material-icons">north</i>Bucket</button>
-    <button id="exc_bucket_down"><i class="material-icons">south</i>Bucket</button>
+    <button id="bucket_up"><i class="material-icons">north</i>Bucket</button>
+    <button id="bucket_down"><i class="material-icons">south</i>Bucket</button>
 
-    <button id="slew_left"><i class="material-icons">rotate_left</i>Slew</button>
-    <button id="slew_right"><i class="material-icons">rotate_right</i>Slew</button>
-
+    <!-- <div id="bucket_text"><span>Bucket</span></div> -->
     <script type="module">
         import * as controller from './js/controller.js';
 
         var urlParams = new URLSearchParams(window.location.search);
         if ( urlParams.has('token') ) { token = urlParams.get('token'); }
         var team = urlParams.get('team').toUpperCase();
-        var vehicle = 'EXC';
+        var vehicle = urlParams.get('vehicle').toUpperCase();
+
+        if ( vehicle === 'DMP' ) { document.title = 'Dump Truck'; }
+        else if ( vehicle === 'FEL' ) { document.title = 'Front End Loader'}
 
         var colors = ['rgba(0,0,255,0.8)','rgba(255,0,0,0.8)'];
         var team_id = team.toUpperCase() === 'B' ? 1 : 0;
         document.body.style.backgroundColor = colors[team_id];
 
-        var bucket_up   = document.getElementById('exc_bucket_up');
-        var bucket_down = document.getElementById('exc_bucket_down');
-
-        var arm_1_up   = document.getElementById('arm_1_up');
-        var arm_1_down = document.getElementById('arm_1_down');
-
-        var arm_2_up   = document.getElementById('arm_2_up');
-        var arm_2_down = document.getElementById('arm_2_down');
-
-        var slew_left  = document.getElementById('slew_left');
-        var slew_right = document.getElementById('slew_right');
+        var bucket_up   = document.getElementById('bucket_up');
+        var bucket_down = document.getElementById('bucket_down');
 
         controller.add_two_nipples();
         controller.add_control_pair(bucket_up,bucket_down,'bucket');
-        controller.add_control_pair(arm_1_up,arm_1_down,'arm_1');
-        controller.add_control_pair(arm_2_up,arm_2_down,'arm_2');
-        controller.add_control_pair(slew_left,slew_right,'slew');
         controller.run_servers(vehicle, team);
 
         // Now add keyboard controls just in case
         document.addEventListener('keydown', controller.actuateViaKeyboard);
         document.addEventListener('keyup', controller.deactuateViaKeyboard);
+
+
     </script>
   </body>
 </html>

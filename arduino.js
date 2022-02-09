@@ -9,6 +9,10 @@ var socket = io(server);
 
 board.on("ready", () => {
     let pin_range = [...Array(65).keys()]; // range function in js
+    for ( var i=0; i<12; i++ ) {
+        pin_range.push('A' + String(i);
+        )
+    }
     leds = new Leds(pin_range);
     // console.log(leds)
 });
@@ -17,9 +21,9 @@ var start_pins = {
     'FEL_A': 2,
     'FEL_B': 8,
     'DMP_A': 14,
-    'DMP_B': 20,
-    'EXC_A': 26,
-    'EXC_B': 38
+    'DMP_B': 65, // pin A0
+    'EXC_A': 22, // just even pins from here on
+    'EXC_B': 23, // just odd pins from here on
 }
 
 // 6 pin controller order:
@@ -34,11 +38,11 @@ var start_pins = {
 
 socket.on("connect", () => {
   console.log('I am the BBG. My socket ID is ' + socket.id); // "G5p5..."
-  // socket.emit('i-am-alive', socket.id, 'BBG');
   socket.emit('i-am-alive', 'BBG', socket.id);
-  socket.on('front-end-loader', (actuator, value, team) => {
+
+  socket.on('FEL', (actuator, value, team) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);
-    if ( team === 'a' ) { start_pin = start_pins['FEL_A'] }
+    if ( team === 'A' ) { start_pin = start_pins['FEL_A'] }
     else { start_pin = start_pins['FEL_B'] }
 
     if      ( actuator === 'left_wheels' ) {
@@ -69,8 +73,8 @@ socket.on("connect", () => {
     }
   });
 
-  socket.on('dump-truck', (actuator, value, team) => {
-      if ( team === 'a' ) { start_pin = start_pins['DMP_A'] }
+  socket.on('DMP', (actuator, value, team) => {
+      if ( team === 'A' ) { start_pin = start_pins['DMP_A'] }
       else { start_pin = start_pins['DMP_B']}
 
       if      ( actuator === 'left_wheels' ) {
@@ -101,34 +105,34 @@ socket.on("connect", () => {
     }
   });
 
-  socket.on('excavator', (actuator, value, team) => {
+  socket.on('EXC', (actuator, value, team) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);
-    if ( team === 'a' ) { start_pin = start_pins['EXC_A'] }
+    if ( team === 'A' ) { start_pin = start_pins['EXC_A'] }
     else { start_pin = start_pins['EXC_B']}
 
     if      ( actuator === 'left_wheels' ) {
-        forward_pin = leds[start_pin + 0];
-        back_pin    = leds[start_pin + 1];
+        forward_pin = leds[start_pin + 0*2];
+        back_pin    = leds[start_pin + 1*2];
     }
     else if ( actuator === 'right_wheels' ) {
-        forward_pin = leds[start_pin + 3];
-        back_pin    = leds[start_pin + 2];
+        forward_pin = leds[start_pin + 3*2];
+        back_pin    = leds[start_pin + 2*2];
     }
     else if ( actuator === 'bucket' ) {
-        forward_pin = leds[start_pin + 5];
-        back_pin    = leds[start_pin + 4];
+        forward_pin = leds[start_pin + 5*2];
+        back_pin    = leds[start_pin + 4*2];
     }
     else if ( actuator === 'arm_1' ) {
-        forward_pin = leds[start_pin + 6];
-        back_pin    = leds[start_pin + 7];
+        forward_pin = leds[start_pin + 6*2];
+        back_pin    = leds[start_pin + 7*2];
     }
     else if ( actuator === 'arm_2' ) {
-        forward_pin = leds[start_pin + 8];
-        back_pin    = leds[start_pin + 9];
+        forward_pin = leds[start_pin + 8*2];
+        back_pin    = leds[start_pin + 9*2];
     }
     else if ( actuator === 'slew' ) {
-        forward_pin = leds[start_pin + 10];
-        back_pin    = leds[start_pin + 11];
+        forward_pin = leds[start_pin + 10*2];
+        back_pin    = leds[start_pin + 11*2];
     }
 
     v = parseInt(value); // just to be sure

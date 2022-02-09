@@ -58,22 +58,22 @@ io.on('connection', (socket) => { // when a user connects
   //     DISPLAY_ID = id;
   // });
 
-  socket.on('front-end-loader', (actuator, value, team, token ) => {
+  socket.on('FEL', (actuator, value, team, token ) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);
-    socket.to(IDs['BBG']).emit('front-end-loader', actuator, value, team, token );
-    socket.to(IDs['DISPLAY']).emit('front-end-loader', actuator, value, team, token );
+    socket.to(IDs['BBG']).emit('FEL', actuator, value, team, token );
+    socket.to(IDs['DISPLAY']).emit('FEL', actuator, value, team, token );
   });
 
-  socket.on('dump-truck', (actuator, value, team, token ) => {
+  socket.on('DMP', (actuator, value, team, token ) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);
-    socket.to(IDs['BBG']).emit('dump-truck', actuator, value, team, token );
-    socket.to(IDs['DISPLAY']).emit('dump-truck', actuator, value, team, token );
+    socket.to(IDs['BBG']).emit('DMP', actuator, value, team, token );
+    socket.to(IDs['DISPLAY']).emit('DMP', actuator, value, team, token );
   });
 
-  socket.on('excavator', (actuator, value, team, token ) => {
+  socket.on('EXC', (actuator, value, team, token ) => {
     console.log(actuator + ' should be set to ' + value + ' for team ' + team);
-    socket.to(IDs['BBG']).emit('excavator', actuator, value, team, token );
-    socket.to(IDs['DISPLAY']).emit('excavator', actuator, value, team, token );
+    socket.to(IDs['BBG']).emit('EXC', actuator, value, team, token );
+    socket.to(IDs['DISPLAY']).emit('EXC', actuator, value, team, token );
   });
 
   // socket.on('peer-server-id-update', (id) => {
