@@ -45,7 +45,7 @@ export function add_joystick(container) {
     function dragStart(e) {
       if (e.type === "touchstart") {
         finger = e.changedTouches[e.changedTouches.length - 1].identifier
-        initialY = e.touches[0].clientY - yOffset;
+        initialY = e.touches[finger].clientY - yOffset;
       } else {
         initialY = e.clientY - yOffset;
       }
@@ -75,7 +75,7 @@ export function add_joystick(container) {
         if (e.type === "touchmove") {
             for (var i=0; i < e.changedTouches.length; i++) {
                 if ( e.changedTouches[i].identifier === finger ) {
-                    currentY = e.touches[0].clientY - initialY;
+                    currentY = e.touches[finger].clientY - initialY;
                 }
             }
         } else {
