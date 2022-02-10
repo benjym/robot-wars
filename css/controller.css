@@ -207,33 +207,30 @@ button:active {
     transform: translate(-50%, -50%);
 }
 
-#left_wheels {
-    width: 30%;
-    height: 200px;
+.wheels {
+    /* width: 30%; */
+    height: 40%;
     margin: 0;
     padding: 0;
-    top: 50%;
-    left: 10%;
     position: absolute;
     border-radius: 7px;
     touch-action: none;
+}
+
+#left_wheels {
+    top: 50%;
+    left: 10%;
     transform: translate(-50%, -50%);
 }
 #right_wheels {
-    width: 30%;
-    height: 200px;
     right: 10%;
     top: 50%;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    border-radius: 7px;
-    touch-action: none;
     transform: translate(50%, -50%);
 }
+
 #joystick-track {
     width: 40px;
-    height: 200px;
+    height: 100%;
     background-color: #333;
     /* display: relative; */
     /* align-items: center; */
@@ -249,8 +246,8 @@ button:active {
     /* transform: translate(-50%, 0); */
 }
 #joystick-thumb {
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
     background-color: #555;
     border: 10px solid rgba(136, 136, 136, .5);
     border-radius: 50%;
@@ -258,7 +255,7 @@ button:active {
     user-select: none;
     margin: 0 0 0 20px;
     padding: 0;
-    transform: translate(-50%, 33.333px);
+    transform: translate(-50%, 0);
     /* position: absolute; */
 }
 #joystick-thumb:active {

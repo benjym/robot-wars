@@ -20,14 +20,19 @@ export function add_joystick(container) {
     var yOffset = 0;
     var val = 0;
 
-    var maxDisplacement = container.clientHeight/2./3.;
+    var benjyOffset = container.clientHeight/2 - 40;
+
+    console.log(container.clientHeight)
+    var maxDisplacement = container.clientHeight/2.;
+
+    setTranslateVertical(0, thumb)
 
     container.addEventListener("touchstart", dragStart, false);
     container.addEventListener("touchend", dragEnd, false);
     container.addEventListener("touchmove", drag, false);
 
     container.addEventListener("mousedown", dragStart, false);
-    container.addEventListener("mouseup", dragEnd, false);
+    document.addEventListener("mouseup", dragEnd, false); // mouse could be anywhere when it releases
     container.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
@@ -52,8 +57,10 @@ export function add_joystick(container) {
       active = false;
 
       setTranslateVertical(0, thumb); // move back to origin
-      container.dispatchEvent(stop_event);
-      val = 0;
+      if ( val !== 0 ) {
+          container.dispatchEvent(stop_event);
+          val = 0;
+      }
     }
 
     function drag(e) {
@@ -69,7 +76,7 @@ export function add_joystick(container) {
           currentY = e.clientY - initialY;
         }
         // setTranslate(currentX, currentY, thumb);
-        currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),50);
+        currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
 
         // xOffset = currentX;
         yOffset = currentY;
@@ -91,7 +98,7 @@ export function add_joystick(container) {
     //   el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
     // }
     function setTranslateVertical(yPos, el) {
-      el.style.transform = "translate3d(-50%, " + String(yPos + 33.3333) + "px, 0)";
+      el.style.transform = "translate(-50%, " + String(yPos + benjyOffset) + "px)";
     }
 
     let stop_event = new CustomEvent('move', { detail:0 , bubbles: true });
