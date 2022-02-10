@@ -12,20 +12,19 @@ export function add_joystick(container) {
     console.log(container)
 
     var active = false;
-    var currentX;
     var currentY;
-    var initialX;
     var initialY;
     var xOffset = 0;
     var yOffset = 0;
     var val = 0;
+    var finger;
 
     var benjyOffset = container.clientHeight/2 - 40;
 
     console.log(container.clientHeight)
     var maxDisplacement = container.clientHeight/2.;
 
-    setTranslateVertical(0, thumb)
+    setTranslate(0, thumb)
 
     container.addEventListener("touchstart", dragStart, false);
     container.addEventListener("touchend", dragEnd, false);
@@ -37,10 +36,9 @@ export function add_joystick(container) {
 
     function dragStart(e) {
       if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - xOffset;
+        finger = e.changedTouches[e.changedTouches.length - 1].identifier
         initialY = e.touches[0].clientY - yOffset;
       } else {
-        initialX = e.clientX - xOffset;
         initialY = e.clientY - yOffset;
       }
 
@@ -50,13 +48,10 @@ export function add_joystick(container) {
     }
 
     function dragEnd(e) {
-        yOffset = 0;
-      // initialX = currentX;
-      // initialY = currentY;
-
+      yOffset = 0;
       active = false;
 
-      setTranslateVertical(0, thumb); // move back to origin
+      setTranslate(0, thumb); // move back to origin
       if ( val !== 0 ) {
           container.dispatchEvent(stop_event);
           val = 0;
@@ -69,19 +64,19 @@ export function add_joystick(container) {
         e.preventDefault();
 
         if (e.type === "touchmove") {
-          // currentX = e.touches[0].clientX - initialX;
-          currentY = e.touches[0].clientY - initialY;
+            for (var i=0; i < e.changedTouches.length; i++) {
+                if ( e.changedTouches[i].identifier === finger ) {
+                    currentY = e.touches[0].clientY - initialY;
+                }
+            }
         } else {
-          // currentX = e.clientX - initialX;
           currentY = e.clientY - initialY;
         }
-        // setTranslate(currentX, currentY, thumb);
-        currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
 
-        // xOffset = currentX;
+        currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
         yOffset = currentY;
 
-        setTranslateVertical(currentY, thumb);
+        setTranslate(currentY, thumb);
 
         if ( yOffset/maxDisplacement > 0.5 && val !== -1) {
             container.dispatchEvent(down_event);
@@ -94,10 +89,7 @@ export function add_joystick(container) {
       }
     }
 
-    // function setTranslate(xPos, yPos, el) {
-    //   el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-    // }
-    function setTranslateVertical(yPos, el) {
+    function setTranslate(yPos, el) {
       el.style.transform = "translate(-50%, " + String(yPos + benjyOffset) + "px)";
     }
 
