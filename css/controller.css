@@ -206,3 +206,64 @@ button:active {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+#left_wheels {
+    width: 30%;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    top: 50%;
+    left: 10%;
+    position: absolute;
+    border-radius: 7px;
+    touch-action: none;
+    transform: translate(-50%, -50%);
+}
+#right_wheels {
+    width: 30%;
+    height: 200px;
+    right: 10%;
+    top: 50%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    border-radius: 7px;
+    touch-action: none;
+    transform: translate(50%, -50%);
+}
+#joystick-track {
+    width: 40px;
+    height: 200px;
+    background-color: #333;
+    /* display: relative; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* overflow: hidden; */
+    /* text-align: center; */
+    border-radius: 7px;
+    touch-action: none;
+    margin: 0 auto;
+    padding: 0;
+    user-select: none;
+    /* position: absolute; */
+    /* transform: translate(-50%, 0); */
+}
+#joystick-thumb {
+    width: 100px;
+    height: 100px;
+    background-color: #555;
+    border: 10px solid rgba(136, 136, 136, .5);
+    border-radius: 50%;
+    touch-action: none;
+    user-select: none;
+    margin: 0 0 0 20px;
+    padding: 0;
+    transform: translate(-50%, 33.333px);
+    /* position: absolute; */
+}
+#joystick-thumb:active {
+    background-color: #aaa;
+}
+#joystick-thumb:hover {
+    cursor: pointer;
+}

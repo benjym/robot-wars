@@ -19,7 +19,7 @@
 
       gtag('config', 'G-GQE06JN33T');
     </script>
-    <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script>
+    <!-- <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script> -->
   </head>
   <body scroll="no" oncontextmenu="return false">
     <video autoplay playsinline muted id="background-video"></video>
@@ -63,7 +63,14 @@
         var slew_left  = document.getElementById('slew_left');
         var slew_right = document.getElementById('slew_right');
 
-        controller.add_two_nipples();
+        // controller.add_two_nipples();
+        var left_wheels = document.querySelector("#left_wheels");
+        var right_wheels = document.querySelector("#right_wheels");
+        import * as joystick from './js/joystick.js';
+
+        joystick.add_joystick(left_wheels);
+        joystick.add_joystick(right_wheels);
+
         controller.add_control_pair(bucket_up,bucket_down,'bucket');
         controller.add_control_pair(arm_1_up,arm_1_down,'arm_1');
         controller.add_control_pair(arm_2_up,arm_2_down,'arm_2');

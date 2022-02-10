@@ -19,7 +19,7 @@
 
       gtag('config', 'G-GQE06JN33T');
     </script>
-    <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script>
+    <!-- <script type="text/javascript" src="node_modules/nipplejs/dist/nipplejs.js"></script> -->
   </head>
   <body scroll="no" oncontextmenu="return false">
     <video autoplay playsinline muted id="background-video"></video>
@@ -51,7 +51,16 @@
         var bucket_up   = document.getElementById('bucket_up');
         var bucket_down = document.getElementById('bucket_down');
 
-        controller.add_two_nipples();
+        // controller.add_two_nipples();
+        var left_wheels = document.querySelector("#left_wheels");
+        var right_wheels = document.querySelector("#right_wheels");
+        import * as joystick from './js/joystick.js';
+
+        joystick.add_joystick(left_wheels);
+        joystick.add_joystick(right_wheels);
+
+        // left_wheels.addEventListener('move', (e) => console.log(e.detail));
+
         controller.add_control_pair(bucket_up,bucket_down,'bucket');
         controller.run_servers(vehicle, team);
 

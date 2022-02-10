@@ -111,36 +111,44 @@ export function run_servers(v, t, to) {
 
         socket.emit('request-id',vehicle+team);
 
-
-        left_joystick.on('move', (evt, data) => {
-          if ( Math.abs( data.vector.y ) > 0.5 ) {
-              if ( left_wheels !== Math.sign(data.vector.y) ) {
-                 left_wheels = Math.sign(data.vector.y);
-                 // console.log(left_wheels);
-                 socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
-             }
-         }
+        var left_wheels = document.querySelector("#left_wheels");
+        var right_wheels = document.querySelector("#right_wheels");
+        left_wheels.addEventListener('move', (e) => {
+            socket.emit(vehicle, 'left_wheels', e.detail, team, token);
         });
-
-        left_joystick.on('end', (evt, data) => {
-          left_wheels = 0;
-          socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+        right_wheels.addEventListener('move', (e) => {
+            socket.emit(vehicle, 'right_wheels', e.detail, team, token);
         });
-
-        right_joystick.on('move', (evt, data) => {
-          if ( Math.abs( data.vector.y ) > 0.5 ) {
-              if ( right_wheels !== Math.sign(data.vector.y) ) {
-                 right_wheels = Math.sign(data.vector.y);
-                 // console.log(right_wheels);
-                 socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
-             }
-         }
-        });
-
-        right_joystick.on('end', () => {
-          right_wheels = 0;
-          socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
-        });
+        // left_joystick.on('move', (evt, data) => {
+        //     console.log(data)
+        //   if ( Math.abs( data.vector.y ) > 0.5 ) {
+        //       if ( left_wheels !== Math.sign(data.vector.y) ) {
+        //          left_wheels = Math.sign(data.vector.y);
+        //          // console.log(left_wheels);
+        //          socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+        //      }
+        //  }
+        // });
+        //
+        // left_joystick.on('end', (evt, data) => {
+        //   left_wheels = 0;
+        //   socket.emit(vehicle, 'left_wheels', left_wheels, team, token);
+        // });
+        //
+        // right_joystick.on('move', (evt, data) => {
+        //   if ( Math.abs( data.vector.y ) > 0.5 ) {
+        //       if ( right_wheels !== Math.sign(data.vector.y) ) {
+        //          right_wheels = Math.sign(data.vector.y);
+        //          // console.log(right_wheels);
+        //          socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+        //      }
+        //  }
+        // });
+        //
+        // right_joystick.on('end', () => {
+        //   right_wheels = 0;
+        //   socket.emit(vehicle, 'right_wheels', right_wheels, team, token);
+        // });
 
     });
 }
