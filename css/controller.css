@@ -1,3 +1,7 @@
+body {
+    touch-action: manipulation;
+}
+
 i {
     user-select: none;
     -moz-user-select: none;
@@ -228,22 +232,24 @@ button:active {
     transform: translate(50%, -50%);
 }
 
-#joystick-track {
-    width: 40px;
-    height: 100%;
-    background-color: #333;
-    /* display: relative; */
-    /* align-items: center; */
-    /* justify-content: center; */
-    /* overflow: hidden; */
-    /* text-align: center; */
-    border-radius: 7px;
-    touch-action: none;
-    margin: 0 auto;
-    padding: 0;
-    user-select: none;
-    /* position: absolute; */
-    /* transform: translate(-50%, 0); */
+@media all and (orientation:landscape) {
+    #joystick-track {
+        width: 40px;
+        height: 100%;
+        background-color: #333;
+        /* display: relative; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* overflow: hidden; */
+        /* text-align: center; */
+        border-radius: 7px;
+        touch-action: none;
+        margin: 0 auto;
+        padding: 0;
+        user-select: none;
+        /* position: absolute; */
+        /* transform: translate(-50%, 0); */
+    }
 }
 #joystick-thumb {
     width: 60px;

@@ -8,9 +8,6 @@ export function add_joystick(container) {
     container.appendChild(track);
     track.appendChild(thumb);
 
-
-    console.log(container)
-
     var active = false;
     var currentY;
     var initialY;
@@ -19,12 +16,23 @@ export function add_joystick(container) {
     var val = 0;
     var finger;
 
+    console.log(container.clientHeight);
     var benjyOffset = container.clientHeight/2 - 40;
-
-    console.log(container.clientHeight)
     var maxDisplacement = container.clientHeight/2.;
 
     setTranslate(0, thumb)
+
+    screen.orientation.addEventListener('change', () => {
+        // After orientationchange, add a one-time resize event
+        var afterOrientationChange = function() { // NOTE: need an extra step to get the new dimensions _AFTER_ rotation
+            benjyOffset = container.clientHeight/2 - 40;
+            maxDisplacement = container.clientHeight/2.;
+            setTranslate(0, thumb); // move back to origin
+            // Remove the resize event listener after it has executed
+            window.removeEventListener('resize', afterOrientationChange);
+        };
+        window.addEventListener('resize', afterOrientationChange);
+    });
 
     container.addEventListener("touchstart", dragStart, false);
     container.addEventListener("touchend", dragEnd, false);
@@ -55,6 +63,7 @@ export function add_joystick(container) {
       if ( val !== 0 ) {
           container.dispatchEvent(stop_event);
           val = 0;
+          finger = null;
       }
     }
 
