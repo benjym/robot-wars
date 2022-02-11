@@ -16,23 +16,38 @@ export function add_joystick(container) {
     var val = 0;
     var finger;
 
-    console.log(container.clientHeight);
     var benjyOffset = container.clientHeight/2 - 40;
     var maxDisplacement = container.clientHeight/2.;
 
     setTranslate(0, thumb)
 
-    screen.orientation.addEventListener('change', () => {
-        // After orientationchange, add a one-time resize event
-        var afterOrientationChange = function() { // NOTE: need an extra step to get the new dimensions _AFTER_ rotation
-            benjyOffset = container.clientHeight/2 - 40;
-            maxDisplacement = container.clientHeight/2.;
-            setTranslate(0, thumb); // move back to origin
-            // Remove the resize event listener after it has executed
-            window.removeEventListener('resize', afterOrientationChange);
-        };
-        window.addEventListener('resize', afterOrientationChange);
-    });
+    if ( screen.orientation === undefined ) { // beautiful iOS not supporting the standard
+        console.log(window.orientation)
+        window.addEventListener('orientationchange', () => {
+            console.log('iOS orientation changed');
+            var afterOrientationChange = function() { // NOTE: need an extra step to get the new dimensions _AFTER_ rotation
+                benjyOffset = container.clientHeight/2 - 40;
+                maxDisplacement = container.clientHeight/2.;
+                setTranslate(0, thumb); // move back to origin
+                // Remove the resize event listener after it has executed
+                window.removeEventListener('resize', afterOrientationChange);
+            };
+            window.addEventListener('resize', afterOrientationChange);
+        });
+    }
+    else {
+        screen.orientation.addEventListener('change', () => {
+            // After orientationchange, add a one-time resize event
+            var afterOrientationChange = function() { // NOTE: need an extra step to get the new dimensions _AFTER_ rotation
+                benjyOffset = container.clientHeight/2 - 40;
+                maxDisplacement = container.clientHeight/2.;
+                setTranslate(0, thumb); // move back to origin
+                // Remove the resize event listener after it has executed
+                window.removeEventListener('resize', afterOrientationChange);
+            };
+            window.addEventListener('resize', afterOrientationChange);
+        });
+    }
 
     container.addEventListener("touchstart", dragStart, false);
     container.addEventListener("touchend", dragEnd, false);
@@ -45,7 +60,16 @@ export function add_joystick(container) {
     function dragStart(e) {
       if (e.type === "touchstart") {
         finger = e.changedTouches[e.changedTouches.length - 1].identifier
-        initialY = e.touches[finger].clientY - yOffset;
+        for ( var i = 0; i< e.touches.length; i++ ) {
+            if ( e.changedTouches[i].identifier === finger ) {
+                initialY = e.changedTouches[i].clientY - yOffset;
+            }
+        }
+        // console.log(e.changedTouches)
+        // console.log(e.touches);
+        // console.log(finger);
+        // console.log(e.touches[finger]);
+
       } else {
         initialY = e.clientY - yOffset;
       }
@@ -75,7 +99,7 @@ export function add_joystick(container) {
         if (e.type === "touchmove") {
             for (var i=0; i < e.changedTouches.length; i++) {
                 if ( e.changedTouches[i].identifier === finger ) {
-                    currentY = e.touches[finger].clientY - initialY;
+                    currentY = e.changedTouches[i].clientY - initialY;
                 }
             }
         } else {
@@ -94,6 +118,10 @@ export function add_joystick(container) {
         else if ( yOffset/maxDisplacement  < -0.5 && val !== 1) {
             container.dispatchEvent(up_event);
             val = 1;
+        }
+        else if (Math.abs(yOffset/maxDisplacement) < 0.5 && val !== 0 ) {
+            container.dispatchEvent(stop_event);
+            val = 0;
         }
       }
     }

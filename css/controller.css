@@ -23,6 +23,7 @@ button {
     -ms-user-select: none;
     background-color: #333;
     /* border: none; */
+    border-radius: 10px;
     color: white;
     padding: 0;
     text-align: center;
@@ -33,7 +34,7 @@ button {
 }
 
 button:active {
-    box-shadow: 0 0 20px 20px #555555;
+    box-shadow: 0 0 10px 10px #555555;
 }
 
 
