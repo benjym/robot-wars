@@ -53,15 +53,16 @@ export function add_joystick(container) {
     thumb.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
-        // console.log('moving ', thumb);
-        if ( e.target === thumb ) {
-            if (e.type === "touchstart") {
-                initialY = e.touches[0].clientY;
-            } else {
-                initialY = e.clientY;
-            }
+        for ( var i=0; i<e.touches.length; i++ ) {
+            if ( e.target === thumb ) {
+                if (e.type === "touchstart") {
+                    initialY = e.touches[i].clientY;
+                } else {
+                    initialY = e.clientY;
+                }
 
-            active = true;
+                active = true;
+            }
         }
     }
 
@@ -84,7 +85,7 @@ export function add_joystick(container) {
 
                 e.preventDefault();
                 if (e.type === "touchmove") {
-                    currentY = e.touches[0].clientY - initialY;
+                    currentY = e.touches[i].clientY - initialY;
                 } else {
                     currentY = e.clientY - initialY;
                 }
@@ -114,8 +115,8 @@ export function add_joystick(container) {
         el.style.transform = "translate(-50%, " + String(yPos + benjyOffset) + "px)";
     }
 
-    let stop_event = new CustomEvent('move', { detail:0 , bubbles: true });
-    let up_event = new CustomEvent('move', { detail:1 , bubbles: true });
+    let stop_event = new CustomEvent('move', { detail: 0 , bubbles: true });
+    let up_event   = new CustomEvent('move', { detail: 1 , bubbles: true });
     let down_event = new CustomEvent('move', { detail:-1 , bubbles: true });
 
 }
