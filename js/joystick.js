@@ -79,32 +79,35 @@ export function add_joystick(container) {
     }
 
     function drag(e) {
-        if ( active && e.target === thumb ) {
+        for ( var i=0; i<e.touches.length; i++ ) {
+            if ( active && e.touches[i].target === thumb ) {
 
-            e.preventDefault();
-            if (e.type === "touchmove") {
-                currentY = e.touches[0].clientY - initialY;
-            } else {
-                currentY = e.clientY - initialY;
-            }
+                e.preventDefault();
+                if (e.type === "touchmove") {
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentY = e.clientY - initialY;
+                }
 
-            currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
+                currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
 
-            setTranslate(currentY, thumb);
+                setTranslate(currentY, thumb);
 
-            if ( currentY/maxDisplacement > 0.5 && val !== -1) {
-                container.dispatchEvent(down_event);
-                val = -1;
-            }
-            else if ( currentY/maxDisplacement  < -0.5 && val !== 1) {
-                container.dispatchEvent(up_event);
-                val = 1;
-            }
-            else if (Math.abs(currentY/maxDisplacement) < 0.5 && val !== 0 ) {
-                container.dispatchEvent(stop_event);
-                val = 0;
+                if ( currentY/maxDisplacement > 0.5 && val !== -1) {
+                    container.dispatchEvent(down_event);
+                    val = -1;
+                }
+                else if ( currentY/maxDisplacement  < -0.5 && val !== 1) {
+                    container.dispatchEvent(up_event);
+                    val = 1;
+                }
+                else if (Math.abs(currentY/maxDisplacement) < 0.5 && val !== 0 ) {
+                    container.dispatchEvent(stop_event);
+                    val = 0;
+                }
             }
         }
+
     }
 
     function setTranslate(yPos, el) {
