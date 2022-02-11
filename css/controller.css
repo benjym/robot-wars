@@ -234,7 +234,7 @@ button:active {
 }
 
 @media all and (orientation:landscape) {
-    #joystick-track {
+    .joystick-track {
         width: 40px;
         height: 100%;
         background-color: #333;
@@ -252,7 +252,7 @@ button:active {
         /* transform: translate(-50%, 0); */
     }
 }
-#joystick-thumb {
+.joystick-thumb {
     width: 60px;
     height: 60px;
     background-color: #555;
@@ -265,9 +265,9 @@ button:active {
     transform: translate(-50%, 0);
     /* position: absolute; */
 }
-#joystick-thumb:active {
+.joystick-thumb:active {
     background-color: #aaa;
 }
-#joystick-thumb:hover {
+.joystick-thumb:hover {
     cursor: pointer;
 }

@@ -2,8 +2,8 @@ export function add_joystick(container) {
     var thumb = document.createElement('div');
     var track = document.createElement('div');
 
-    thumb.setAttribute('id','joystick-thumb');
-    track.setAttribute('id','joystick-track');
+    thumb.setAttribute('class','joystick-thumb');
+    track.setAttribute('class','joystick-track');
 
     container.appendChild(track);
     track.appendChild(thumb);
@@ -11,15 +11,15 @@ export function add_joystick(container) {
     var active = false;
     var currentY;
     var initialY;
-    var xOffset = 0;
-    var yOffset = 0;
+    // var xOffset = 0;
+    // var yOffset = 0;
     var val = 0;
     var finger;
 
     var benjyOffset = container.clientHeight/2 - 40;
     var maxDisplacement = container.clientHeight/2.;
 
-    setTranslate(0, thumb)
+    setTranslate(0, thumb);
 
     if ( screen.orientation === undefined ) { // beautiful iOS not supporting the standard
         console.log(window.orientation)
@@ -49,29 +49,21 @@ export function add_joystick(container) {
         });
     }
 
-    container.addEventListener("touchstart", dragStart, false);
-    container.addEventListener("touchend", dragEnd, false);
-    container.addEventListener("touchmove", drag, false);
+    thumb.addEventListener("touchstart", dragStart, false);
+    thumb.addEventListener("touchend", dragEnd, false);
+    thumb.addEventListener("touchmove", drag, false);
 
-    container.addEventListener("mousedown", dragStart, false);
+    thumb.addEventListener("mousedown", dragStart, false);
     document.addEventListener("mouseup", dragEnd, false); // mouse could be anywhere when it releases
-    container.addEventListener("mousemove", drag, false);
+    thumb.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
       if (e.type === "touchstart") {
-        finger = e.changedTouches[e.changedTouches.length - 1].identifier
-        for ( var i = 0; i< e.touches.length; i++ ) {
-            if ( e.changedTouches[i].identifier === finger ) {
-                initialY = e.changedTouches[i].clientY - yOffset;
-            }
+        if ( e.target.isSameNode(thumb) ) {
+            initialY = e.touches[0].clientY;
         }
-        // console.log(e.changedTouches)
-        // console.log(e.touches);
-        // console.log(finger);
-        // console.log(e.touches[finger]);
-
       } else {
-        initialY = e.clientY - yOffset;
+        initialY = e.clientY;
       }
 
       if (e.target === thumb) {
@@ -80,7 +72,6 @@ export function add_joystick(container) {
     }
 
     function dragEnd(e) {
-      yOffset = 0;
       active = false;
 
       setTranslate(0, thumb); // move back to origin
@@ -97,29 +88,26 @@ export function add_joystick(container) {
         e.preventDefault();
 
         if (e.type === "touchmove") {
-            for (var i=0; i < e.changedTouches.length; i++) {
-                if ( e.changedTouches[i].identifier === finger ) {
-                    currentY = e.changedTouches[i].clientY - initialY;
-                }
+            if ( e.target.isSameNode(thumb) ) {
+                currentY = e.touches[0].clientY - initialY;
             }
         } else {
           currentY = e.clientY - initialY;
         }
 
         currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
-        yOffset = currentY;
 
         setTranslate(currentY, thumb);
 
-        if ( yOffset/maxDisplacement > 0.5 && val !== -1) {
+        if ( currentY/maxDisplacement > 0.5 && val !== -1) {
             container.dispatchEvent(down_event);
             val = -1;
         }
-        else if ( yOffset/maxDisplacement  < -0.5 && val !== 1) {
+        else if ( currentY/maxDisplacement  < -0.5 && val !== 1) {
             container.dispatchEvent(up_event);
             val = 1;
         }
-        else if (Math.abs(yOffset/maxDisplacement) < 0.5 && val !== 0 ) {
+        else if (Math.abs(currentY/maxDisplacement) < 0.5 && val !== 0 ) {
             container.dispatchEvent(stop_event);
             val = 0;
         }
