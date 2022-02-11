@@ -34,7 +34,7 @@ button {
 }
 
 button:active {
-    box-shadow: 0 0 10px 10px #555555;
+    box-shadow: 0 0 12px 12px #555555;
 }
 
 
@@ -265,7 +265,7 @@ button:active {
     transform: translate(-50%, 0);
     /* position: absolute; */
 }
-.joystick-thumb:active {
+.joystick-thumb[data-active] {
     background-color: #aaa;
 }
 .joystick-thumb:hover {

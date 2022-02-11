@@ -50,25 +50,27 @@ export function add_joystick(container) {
 
     thumb.addEventListener("mousedown", dragStart, false);
     document.addEventListener("mouseup", dragEnd, false); // mouse could be anywhere when it releases
-    thumb.addEventListener("mousemove", drag, false);
+    container.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
-        for ( var i=0; i<e.touches.length; i++ ) {
-            if ( e.target === thumb ) {
-                if (e.type === "touchstart") {
+        if ( e.target === thumb ) {
+            if (e.type === "touchstart") {
+                for ( var i=0; i<e.touches.length; i++ ) {
                     initialY = e.touches[i].clientY;
-                } else {
-                    initialY = e.clientY;
                 }
-
-                active = true;
+            } else {
+                initialY = e.clientY;
             }
+
+            active = true;
+            e.target.setAttribute('data-active', '');
         }
     }
 
     function dragEnd(e) {
         if ( e.target === thumb ) {
             active = false;
+            e.target.removeAttribute('data-active');
 
             setTranslate(0, thumb); // move back to origin
 
@@ -80,35 +82,34 @@ export function add_joystick(container) {
     }
 
     function drag(e) {
-        for ( var i=0; i<e.touches.length; i++ ) {
-            if ( active && e.touches[i].target === thumb ) {
+        if ( active ) {
 
-                e.preventDefault();
-                if (e.type === "touchmove") {
-                    currentY = e.touches[i].clientY - initialY;
-                } else {
-                    currentY = e.clientY - initialY;
+            e.preventDefault();
+            if (e.type === "touchmove") {
+                for ( var i=0; i<e.touches.length; i++ ) {
+                    if ( e.touches[i].target === thumb ) {
+                        currentY = e.touches[i].clientY - initialY;
+                    }
                 }
+            } else {
+                currentY = e.clientY - initialY;
+            }
 
-                currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
+            currentY = Math.sign(currentY)*Math.min(Math.abs(currentY),maxDisplacement);
 
-                setTranslate(currentY, thumb);
+            setTranslate(currentY, thumb);
 
-                if ( currentY/maxDisplacement > 0.5 && val !== -1) {
-                    container.dispatchEvent(down_event);
-                    val = -1;
-                }
-                else if ( currentY/maxDisplacement  < -0.5 && val !== 1) {
-                    container.dispatchEvent(up_event);
-                    val = 1;
-                }
-                else if (Math.abs(currentY/maxDisplacement) < 0.5 && val !== 0 ) {
-                    container.dispatchEvent(stop_event);
-                    val = 0;
-                }
+            if ( currentY/maxDisplacement > 0.5 && val !== -1) {
+                container.dispatchEvent(down_event);
+                val = -1;
+            } else if ( currentY/maxDisplacement  < -0.5 && val !== 1) {
+                container.dispatchEvent(up_event);
+                val = 1;
+            } else if (Math.abs(currentY/maxDisplacement) < 0.5 && val !== 0 ) {
+                container.dispatchEvent(stop_event);
+                val = 0;
             }
         }
-
     }
 
     function setTranslate(yPos, el) {
