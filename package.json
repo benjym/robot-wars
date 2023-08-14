@@ -1,6 +1,6 @@
 {
   "name": "robot-wars",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Web interface for controlling remote control trucks",
   "website": "https://robot-wars-usyd.herokuapp.com/",
   "repository": "https://github.com/benjym/robot-wars",
