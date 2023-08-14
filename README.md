@@ -11,9 +11,9 @@ Interface to control Huina remote control toys via a web connection for a Usyd E
 
 ## Usage
 
-This repository is hosted [live on heroku here](https://robot-wars-usyd.herokuapp.com/).
+This repository is hosted [live on glitch here](https://robot-wars-usyd.glitch.me/)).
 
-Users should navigate to [this page](https://robot-wars-usyd.herokuapp.com/index.html) and choose their robot. Alternatively QR signup codes are provided in the `qr-codes` folder which can be printed and displayed for a live audience. A live display can also be set up so that users can see through the front-facing phones attached to each device. The display should be pointed [here](https://robot-wars-usyd.herokuapp.com/display.html) and each phone open [to here](https://robot-wars-usyd.herokuapp.com/phone.html).
+Users should navigate to [this page]([https://robot-wars-usyd.glitch.me/index.html) and choose their robot. Alternatively QR signup codes are provided in the `qr-codes` folder which can be printed and displayed for a live audience. A live display can also be set up so that users can see through the front-facing phones attached to each device. The display should be pointed [here](https://robot-wars-usyd.glitch.me/display.html) and each phone open [to here](https://robot-wars-usyd.glitch.me/phone.html).
 
 ## Contributors
 
